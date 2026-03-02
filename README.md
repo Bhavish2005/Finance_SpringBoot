@@ -1,242 +1,245 @@
-#  FinanceVUE – AI Powered Personal Finance Manager
+# FinanceVUE – Personal Finance Management System
 
-FinanceVUE is a full-stack personal finance management system built using **Spring Boot (Backend)** and **React (Frontend)**.  
-It helps users intelligently track expenses, manage budgets, analyze financial health, and leverage AI-powered receipt scanning.
+FinanceVUE is a full-stack personal finance management system built using Spring Boot (Backend) and React (Frontend).  
 
----
+The application allows users to securely manage income and expenses, track monthly budgets, import bulk transactions via Excel, export data as CSV, and automate monthly tracking using a Spring Boot Cron Scheduler.
 
-##  Project Overview
-
-FinanceVUE allows users to:
-
-- Track income and expenses
-- Set monthly budgets
-- Receive budget alerts
-- View financial analytics dashboards
-- Upload receipts for AI-based data extraction
-- Monitor overall financial health score
-
-This project demonstrates full-stack development including backend API design, database integration, authentication handling, and frontend UI implementation.
+This project demonstrates secure REST API development, JWT-based authentication, file processing, scheduled automation, and full-stack integration.
 
 ---
 
+## Features
 
-- **Backend:** Handles business logic, authentication, database operations, and API endpoints.
-- **Frontend:** Communicates with backend APIs and provides interactive UI.
-- **Database:** Stores user data, transactions, budgets, etc.
-- **AI Layer:** Used for receipt scanning and financial insights (if configured).
+### Authentication and Security
+
+- User Registration
+- User Login
+- JWT (JSON Web Token) based authentication
+- Protected REST APIs using Spring Security
+- Authorization header support (Bearer Token)
+
+All secured endpoints require:
+
+Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-##  Tech Stack
+### Finance Management
 
-###  Backend
+- Add income transactions
+- Add expense transactions
+- Update transactions
+- Delete transactions
+- Categorize transactions
+- Monthly budget setup
+- Budget usage monitoring
+
+---
+
+### Excel Import (Bulk Transaction Upload)
+
+Users can upload an Excel (.xlsx) file to import multiple transactions at once.
+
+Technology used:
+- Apache POI
+
+Expected Excel Format:
+
+Date | Type | Category | Amount | Description
+2026-01-10 | Expense | Food | 500 | Lunch
+2026-01-11 | Income | Salary | 50000 | Monthly Salary
+
+API Endpoint:
+
+POST /api/transactions/import
+
+- Accepts multipart Excel file
+- Validates data
+- Saves transactions to database
+
+---
+
+### CSV Export
+
+Users can export their transaction history as a downloadable CSV file.
+
+Technology used:
+- OpenCSV
+
+API Endpoint:
+
+GET /api/transactions/export
+
+- Dynamically generates CSV
+- Returns downloadable file response
+
+---
+
+### Monthly Budget Tracking with Spring Cron Scheduler
+
+The system uses Spring Boot's @Scheduled annotation to automate monthly and daily budget tracking.
+
+Automated Tasks:
+
+1. Monthly Summary Generation  
+   - Runs on the first day of every month  
+   - Calculates total expenses of previous month  
+   - Stores monthly summary  
+   - Resets monthly tracking counters  
+
+2. Daily Budget Monitoring  
+   - Runs daily (configurable cron expression)  
+   - Compares total expenses with monthly budget  
+   - Calculates budget usage percentage  
+   - Flags warning and exceeded states  
+
+Example Cron Configuration:
+
+For monthly execution:
+
+@Scheduled(cron = "0 0 0 1 * ?")
+
+For daily execution:
+
+@Scheduled(cron = "0 0 1 * * ?")
+
+The scheduler ensures automated financial tracking without manual intervention.
+
+---
+
+## Technology Stack
+
+Backend:
 - Java 17+
 - Spring Boot
+- Spring Security
+- JWT (JSON Web Token)
 - Spring Data JPA
 - Hibernate
+- Apache POI
+- OpenCSV
+- Spring Scheduler
 - Maven
 
-###  Frontend
+Frontend:
 - React.js
 - JavaScript
 - HTML5
 - CSS3
+- Axios
 
-###  Database
-- MySQL / PostgreSQL (Configurable)
-
-###  Tools
-- Postman
-- Git & GitHub
-- VS Code / IntelliJ IDEA
+Database:
+- MySQL or PostgreSQL
 
 ---
 
-##  Features
+## Installation and Setup
 
-###  User Management
-- User Registration
-- Login Authentication
-- Profile Management
+### Prerequisites
 
-###  Finance Management
-- Add Income
-- Add Expenses
-- Categorize Transactions
-- Monthly Budget Setting
-
-###  Dashboard & Reports
-- Expense Summary
-- Income vs Expense Analysis
-- Budget Tracking
-- Financial Health Score
-
-###  AI Features (Optional if configured)
-- Smart Receipt Scanning
-- Auto Expense Extraction
-- Intelligent Spending Analysis
-
----
-
-##  Installation & Setup
-
-###  Prerequisites
-
-Make sure you have installed:
-
-- Java 17 or above
-- Node.js (v16 or above)
-- MySQL/PostgreSQL
+- Java 17 or higher
+- Node.js (v16 or higher)
 - Maven
+- MySQL or PostgreSQL
 - Git
 
 ---
 
-## 🔧 Backend Setup
+### Backend Setup
 
-1. Clone the repository:
+Clone the repository:
 
-```bash
-git clone https://github.com/Bhavish2005/Finance_SpringBoot.git
-cd Finance_SpringBoot/backend
-```
+git clone https://github.com/Bhavish2005/Finance_SpringBoot.git  
+cd Finance_SpringBoot/backend  
 
-2. Configure database in:
+Configure database and JWT properties in:
 
-```
 src/main/resources/application.properties
-```
 
 Example configuration:
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/finance_db
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
+spring.datasource.url=jdbc:mysql://localhost:3306/finance_db  
+spring.datasource.username=root  
+spring.datasource.password=your_password  
+spring.jpa.hibernate.ddl-auto=update  
 
-3. Build and run the backend:
+jwt.secret=your_secret_key  
+jwt.expiration=86400000  
 
-```bash
-mvn clean install
-mvn spring-boot:run
-```
+Run backend:
 
-Backend runs at:
+mvn clean install  
+mvn spring-boot:run  
 
-```
-http://localhost:8080
-```
+Backend runs on:
+
+http://localhost:8080  
 
 ---
 
-##  Frontend Setup
+### Frontend Setup
 
-1. Navigate to frontend directory:
+cd ../frontend  
+npm install  
+npm start  
 
-```bash
-cd ../frontend
-```
+Frontend runs on:
 
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Start development server:
-
-```bash
-npm start
-```
-
-Frontend runs at:
-
-```
-http://localhost:3000
-```
+http://localhost:3000  
 
 ---
 
-##  API Endpoints (Sample Structure)
+## API Endpoints Overview
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | /api/auth/register | Register user |
-| POST   | /api/auth/login | Login user |
-| GET    | /api/transactions | Get all transactions |
-| POST   | /api/transactions | Add transaction |
-| GET    | /api/dashboard | Fetch dashboard data |
-| POST   | /api/receipt/upload | Upload receipt |
+Authentication:
+POST /api/auth/register  
+POST /api/auth/login  
 
+Transactions:
+GET /api/transactions  
+POST /api/transactions  
+PUT /api/transactions/{id}  
+DELETE /api/transactions/{id}  
 
+File Handling:
+POST /api/transactions/import  
+GET /api/transactions/export  
 
----
-
-
----
-
-##  Environment Variables (Frontend)
-
-Create a `.env` file inside frontend:
-
-```env
-REACT_APP_API_URL=http://localhost:8080/api
-```
+Dashboard:
+GET /api/dashboard  
 
 ---
 
-##  Production Build
+## Production Build
 
-### Backend
+Backend:
 
-```bash
-mvn clean package
-java -jar target/finance-backend.jar
-```
+mvn clean package  
+java -jar target/finance-backend.jar  
 
-### Frontend
+Frontend:
 
-```bash
-npm run build
-```
-
-Deploy the `build/` folder using Nginx, Apache, or cloud hosting.
+npm run build  
 
 ---
 
-##  Testing
+## Future Improvements
 
-- Test APIs using Postman
-- Use browser for GET endpoints
-- Add unit tests using JUnit (recommended)
-
----
-
-##  Future Improvements
-
-- JWT Authentication
-- Role-Based Access Control
-- Docker Deployment
-- CI/CD Pipeline Integration
-- Cloud Deployment (AWS/GCP/Azure)
-- Advanced AI-based financial forecasting
+- Role-based access control (Admin/User)
+- Refresh token implementation
+- Email notifications for budget alerts
+- Docker deployment
+- CI/CD pipeline integration
+- Cloud deployment
+- Advanced financial forecasting
 
 ---
 
-##  Author
+## Author
 
 Bhavish Pushkarna  
-Full Stack Developer | ML Enthusiast | System Builder  
+Full Stack Developer  
 
 GitHub: https://github.com/Bhavish2005  
 
 ---
-
-
-##  Support
-
-If you like this project, consider giving it a ⭐ on GitHub!
