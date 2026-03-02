@@ -20,13 +20,6 @@ This project demonstrates full-stack development including backend API design, d
 
 ---
 
-##  Architecture
-
-Finance_SpringBoot/
-│
-├── backend/          → Spring Boot REST API  
-├── frontend/         → React Application  
-└── README.md  
 
 - **Backend:** Handles business logic, authentication, database operations, and API endpoints.
 - **Frontend:** Communicates with backend APIs and provides interactive UI.
@@ -179,31 +172,10 @@ http://localhost:3000
 | GET    | /api/dashboard | Fetch dashboard data |
 | POST   | /api/receipt/upload | Upload receipt |
 
-*(Modify according to your actual controller mappings.)*
+
 
 ---
 
-##  Project Folder Structure
-
-backend/
- ├── src/main/java/
- │   ├── controller/
- │   ├── service/
- │   ├── repository/
- │   ├── model/
- │   └── FinanceApplication.java
- ├── src/main/resources/
- │   └── application.properties
- └── pom.xml
-
-frontend/
- ├── public/
- ├── src/
- │   ├── components/
- │   ├── pages/
- │   ├── services/
- │   └── App.js
- └── package.json
 
 ---
 
