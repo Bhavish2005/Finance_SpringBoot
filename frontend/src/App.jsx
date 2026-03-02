@@ -13,6 +13,7 @@ import ReceiptScannerPage from './pages/ReceiptScannerPage'
 import Layout           from './components/layout/Layout'
 import RecurringPage from './pages/RecurringPage'
 import HealthScorePage from './pages/HealthScorePage'
+import ImportTransactionsPage from './pages/ImportTransactionsPage'
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
@@ -73,6 +74,9 @@ export default function App() {
 </Route>
 <Route path="/health-score" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
   <Route index element={<HealthScorePage />} />
+</Route>
+<Route path="/import" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+  <Route index element={<ImportTransactionsPage />} />
 </Route>
 
     </Routes>

@@ -16,4 +16,7 @@ exportCsv: (from, to) => api.get('/transactions/export/csv', {
     responseType: 'blob',  // Important — tells Axios to treat response as a file
 }),
 getRecurring: () => api.get('/transactions/recurring'),
+importCsv: (formData) => api.post('/transactions/import/csv', formData, {
+    headers: { 'Content-Type': undefined },
+}),
 };
