@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 150" width="100%" height="100%">
+  <defs>
+    <linearGradient id="eyeGradTop" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <linearGradient id="eyeGradBot" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#94A3B8" stop-opacity="0.6"/>
+    </linearGradient>
+    
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#10B981" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(10, 0)">
+    <path d="M 20 75 Q 75 135 130 75" fill="none" stroke="url(#eyeGradBot)" stroke-width="8" stroke-linecap="round"/>
+    
+    <path d="M 20 75 Q 75 15 130 75" fill="none" stroke="url(#eyeGradTop)" stroke-width="8" stroke-linecap="round"/>
+    
+    <g filter="url(#glow)">
+      <rect x="46" y="65" width="14" height="25" fill="url(#barGrad)" rx="3"/>
+      <rect x="68" y="50" width="14" height="40" fill="url(#barGrad)" rx="3"/>
+      <rect x="90" y="30" width="14" height="60" fill="url(#barGrad)" rx="3"/>
+    </g>
+    
+    <circle cx="115" cy="45" r="4" fill="#FCD34D" />
+  </g>
+
+  <g transform="translate(170, 92)">
+    <text font-family="'Inter', 'Montserrat', 'Segoe UI', sans-serif" font-size="56" letter-spacing="-1">
+      <tspan font-weight="800" fill="#1E3A8A">Finance</tspan>
+      <tspan font-weight="300" fill="#10B981">VUE</tspan>
+    </text>
+    
+    <text y="28" font-family="'Inter', 'Montserrat', 'Segoe UI', sans-serif" font-weight="600" font-size="13" fill="#64748B" letter-spacing="3.8">
+      VISIONARY WEALTH MANAGEMENT
+    </text>
+  </g>
+</svg>
