@@ -45,13 +45,13 @@ public class TransactionController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Transaction.TransactionType type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
 
         return ResponseEntity.ok(
                 transactionService.getTransactions(
-                        user, accountId, from, to, category, type, page, size)
+                        user, accountId, type, category, from, to, page, size)
         );
     }
 

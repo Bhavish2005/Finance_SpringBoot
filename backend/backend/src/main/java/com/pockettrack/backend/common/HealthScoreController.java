@@ -192,11 +192,11 @@ public class HealthScoreController {
         String gradeColor;
         String gradeMsg;
 
-        if (score >= 85)      { grade = "A"; gradeColor = "#10B981"; gradeMsg = "Excellent Financial Health! 🌟"; }
-        else if (score >= 70) { grade = "B"; gradeColor = "#3B82F6"; gradeMsg = "Good Financial Health! 👍"; }
-        else if (score >= 55) { grade = "C"; gradeColor = "#F59E0B"; gradeMsg = "Fair — Room for Improvement 📈"; }
-        else if (score >= 40) { grade = "D"; gradeColor = "#EF4444"; gradeMsg = "Needs Attention ⚠️"; }
-        else                  { grade = "F"; gradeColor = "#DC2626"; gradeMsg = "Critical — Take Action Now 🚨"; }
+        if (score >= 85)      { grade = "A"; gradeColor = "#10B981"; gradeMsg = "Excellent Financial Health! "; }
+        else if (score >= 70) { grade = "B"; gradeColor = "#3B82F6"; gradeMsg = "Good Financial Health! "; }
+        else if (score >= 55) { grade = "C"; gradeColor = "#F59E0B"; gradeMsg = "Fair — Room for Improvement "; }
+        else if (score >= 40) { grade = "D"; gradeColor = "#EF4444"; gradeMsg = "Needs Attention "; }
+        else                  { grade = "F"; gradeColor = "#DC2626"; gradeMsg = "Critical — Take Action Now "; }
 
         // Build response
         Map<String, Object> result = new LinkedHashMap<>();

@@ -108,4 +108,20 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
             @Param("from") LocalDate from,
             @Param("to") LocalDate to
     );
+
+    // Account-scoped queries
+    Page<Transaction> findByAccountIdAndDateBetween(
+            UUID accountId, LocalDate from, LocalDate to, Pageable pageable);
+
+    Page<Transaction> findByAccountIdAndTypeAndDateBetween(
+            UUID accountId, Transaction.TransactionType type,
+            LocalDate from, LocalDate to, Pageable pageable);
+
+    Page<Transaction> findByAccountIdAndCategoryAndDateBetween(
+            UUID accountId, String category,
+            LocalDate from, LocalDate to, Pageable pageable);
+
+    Page<Transaction> findByAccountIdAndTypeAndCategoryAndDateBetween(
+            UUID accountId, Transaction.TransactionType type, String category,
+            LocalDate from, LocalDate to, Pageable pageable);
 }

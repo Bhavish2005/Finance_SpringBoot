@@ -1,245 +1,176 @@
-# FinanceVUE – Personal Finance Management System
+# FinanceVUE
 
-FinanceVUE is a full-stack personal finance management system built using Spring Boot (Backend) and React (Frontend).  
+**Full-Stack AI-Powered Personal Finance Management System**
 
-The application allows users to securely manage income and expenses, track monthly budgets, import bulk transactions via Excel, export data as CSV, and automate monthly tracking using a Spring Boot Cron Scheduler.
+> Built with Spring Boot + React. Track spending, scan receipts with AI, score your financial health, and get monthly reports — all in one place.
 
-This project demonstrates secure REST API development, JWT-based authentication, file processing, scheduled automation, and full-stack integration.
-
----
-
-## Features
-
-### Authentication and Security
-
-- User Registration
-- User Login
-- JWT (JSON Web Token) based authentication
-- Protected REST APIs using Spring Security
-- Authorization header support (Bearer Token)
-
-All secured endpoints require:
-
-Authorization: Bearer <JWT_TOKEN>
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.11-6DB33F?style=flat-square&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![Gemini AI](https://img.shields.io/badge/Gemini_AI-2.0_Flash-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
+[![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)](https://jwt.io)
 
 ---
 
-### Finance Management
+## What is FinanceVUE?
 
-- Add income transactions
-- Add expense transactions
-- Update transactions
-- Delete transactions
-- Categorize transactions
-- Monthly budget setup
-- Budget usage monitoring
+FinanceVUE is a production-grade personal finance platform where users can manage multiple bank accounts, track income and expenses, set monthly budgets, work toward savings goals, and get a calculated Financial Health Score based on their real data.
+
+The standout feature is an **AI Receipt Scanner** — upload a photo of any receipt and Google Gemini automatically extracts the merchant, amount, date, and category, pre-filling a transaction form ready to save in one click.
+
+Every month the system automatically emails users a full financial summary. Budget alerts fire at 80% and 100% so users know before they overspend. The entire app supports **dark mode** with a consistent design system across all 10 pages.
 
 ---
 
-### Excel Import (Bulk Transaction Upload)
+## Features at a Glance
 
-Users can upload an Excel (.xlsx) file to import multiple transactions at once.
-
-Technology used:
-- Apache POI
-
-Expected Excel Format:
-
-Date | Type | Category | Amount | Description
-2026-01-10 | Expense | Food | 500 | Lunch
-2026-01-11 | Income | Salary | 50000 | Monthly Salary
-
-API Endpoint:
-
-POST /api/transactions/import
-
-- Accepts multipart Excel file
-- Validates data
-- Saves transactions to database
+| Feature | Description |
+|---|---|
+| JWT Authentication | Secure register/login with stateless token-based auth |
+| Multi-Account Management | Savings, checking, credit cards, cash — with real-time balance updates |
+| Transaction Engine | Full create/edit/delete with automatic balance correction on every change |
+| AI Receipt Scanner | Snap a receipt → Gemini AI fills in the transaction details |
+| Budget Tracking | Monthly per-category budgets with visual progress bars |
+| Savings Goals | Set targets, contribute amounts, auto-completes when reached |
+| Financial Health Score | 0–100 score with grade (A–F) based on savings, budgets, goals, net worth |
+| Recurring Detection | Auto-flags transactions that repeat month over month |
+| Monthly Email Reports | Automated HTML email summary every 1st of the month |
+| CSV Import | Bulk import transactions with row-level error reporting |
+| Dark Mode | Full dark/light theme across every page |
 
 ---
 
-### CSV Export
+## Tech Stack
 
-Users can export their transaction history as a downloadable CSV file.
+**Backend** — Java 21, Spring Boot 3.5.11, Spring Security, Spring Data JPA, PostgreSQL, JWT, JavaMailSender, OkHttp3
 
-Technology used:
-- OpenCSV
+**Frontend** — React 18, Vite, Tailwind CSS v4, Recharts, React Icons
 
-API Endpoint:
-
-GET /api/transactions/export
-
-- Dynamically generates CSV
-- Returns downloadable file response
+**AI** — Google Gemini 2.0 Flash API
 
 ---
 
-### Monthly Budget Tracking with Spring Cron Scheduler
+## Prerequisites
 
-The system uses Spring Boot's @Scheduled annotation to automate monthly and daily budget tracking.
+Make sure you have these installed before running the project:
 
-Automated Tasks:
-
-1. Monthly Summary Generation  
-   - Runs on the first day of every month  
-   - Calculates total expenses of previous month  
-   - Stores monthly summary  
-   - Resets monthly tracking counters  
-
-2. Daily Budget Monitoring  
-   - Runs daily (configurable cron expression)  
-   - Compares total expenses with monthly budget  
-   - Calculates budget usage percentage  
-   - Flags warning and exceeded states  
-
-Example Cron Configuration:
-
-For monthly execution:
-
-@Scheduled(cron = "0 0 0 1 * ?")
-
-For daily execution:
-
-@Scheduled(cron = "0 0 1 * * ?")
-
-The scheduler ensures automated financial tracking without manual intervention.
+- [Java 21+](https://adoptium.net/)
+- [Node.js 18+](https://nodejs.org/)
+- [PostgreSQL 16+](https://www.postgresql.org/download/)
+- [Maven](https://maven.apache.org/) (or use the included `./mvnw` wrapper)
+- A free [Google Gemini API Key](https://aistudio.google.com/apikey)
+- A Gmail account with an [App Password](https://myaccount.google.com/apppasswords) enabled
 
 ---
 
-## Technology Stack
+## Getting Started
 
-Backend:
-- Java 17+
-- Spring Boot
-- Spring Security
-- JWT (JSON Web Token)
-- Spring Data JPA
-- Hibernate
-- Apache POI
-- OpenCSV
-- Spring Scheduler
-- Maven
+### 1. Clone the repository
+```bash
+git clone https://github.com/Bhavish2005/FinanceVUE.git
+cd FinanceVUE
+```
 
-Frontend:
-- React.js
-- JavaScript
-- HTML5
-- CSS3
-- Axios
+### 2. Create the PostgreSQL database
+```bash
+psql -U postgres -c "CREATE DATABASE financevue;"
+```
 
-Database:
-- MySQL or PostgreSQL
+### 3. Configure the backend
 
----
+Open `backend/src/main/resources/application.yml` and fill in your values:
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/financevue
+    username: YOUR_POSTGRES_USERNAME
+    password: YOUR_POSTGRES_PASSWORD
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: YOUR_GMAIL_ADDRESS
+    password: YOUR_GMAIL_APP_PASSWORD
 
-## Installation and Setup
+app:
+  jwt:
+    secret: any-random-string-minimum-32-characters-long
+  gemini:
+    api-key: YOUR_GEMINI_API_KEY
+```
 
-### Prerequisites
+### 4. Run the backend
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-- Java 17 or higher
-- Node.js (v16 or higher)
-- Maven
-- MySQL or PostgreSQL
-- Git
+Backend starts at `http://localhost:8080`. All database tables are created automatically on first run.
 
----
+### 5. Run the frontend
 
-### Backend Setup
+Open a new terminal:
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Clone the repository:
-
-git clone https://github.com/Bhavish2005/Finance_SpringBoot.git  
-cd Finance_SpringBoot/backend  
-
-Configure database and JWT properties in:
-
-src/main/resources/application.properties
-
-Example configuration:
-
-spring.datasource.url=jdbc:mysql://localhost:3306/finance_db  
-spring.datasource.username=root  
-spring.datasource.password=your_password  
-spring.jpa.hibernate.ddl-auto=update  
-
-jwt.secret=your_secret_key  
-jwt.expiration=86400000  
-
-Run backend:
-
-mvn clean install  
-mvn spring-boot:run  
-
-Backend runs on:
-
-http://localhost:8080  
+Frontend starts at `http://localhost:5173`. Open that URL in your browser and you're ready to go.
 
 ---
 
-### Frontend Setup
-
-cd ../frontend  
-npm install  
-npm start  
-
-Frontend runs on:
-
-http://localhost:3000  
-
----
-
-## API Endpoints Overview
-
-Authentication:
-POST /api/auth/register  
-POST /api/auth/login  
-
-Transactions:
-GET /api/transactions  
-POST /api/transactions  
-PUT /api/transactions/{id}  
-DELETE /api/transactions/{id}  
-
-File Handling:
-POST /api/transactions/import  
-GET /api/transactions/export  
-
-Dashboard:
-GET /api/dashboard  
+## Project Structure
+```
+FinanceVUE/
+├── backend/                  # Spring Boot application
+│   └── src/main/java/
+│       ├── account/          # Account management + balance logic
+│       ├── transaction/      # Transaction CRUD + CSV import + AI scanner
+│       ├── budget/           # Budgets + email alerts
+│       ├── goal/             # Savings goals + contributions
+│       ├── common/           # Dashboard, Health Score, Email reports
+│       ├── ai/               # Gemini receipt parsing service
+│       └── security/         # JWT filter + configuration
+│
+└── frontend/                 # React + Vite application
+    └── src/
+        ├── pages/            # One file per page (Dashboard, Accounts, etc.)
+        ├── components/       # Sidebar, Layout, shared UI
+        ├── api/              # Axios API modules per resource
+        └── context/          # Auth context, Theme context
+```
 
 ---
 
-## Production Build
-
-Backend:
-
-mvn clean package  
-java -jar target/finance-backend.jar  
-
-Frontend:
-
-npm run build  
-
----
-
-## Future Improvements
-
-- Role-based access control (Admin/User)
-- Refresh token implementation
-- Email notifications for budget alerts
-- Docker deployment
-- CI/CD pipeline integration
-- Cloud deployment
-- Advanced financial forecasting
+## Pages
+```
+/                →  Landing page
+/dashboard       →  Monthly summary, charts, recent transactions
+/accounts        →  Manage bank accounts and balances
+/transactions    →  Add, filter, search, and manage transactions
+/budget          →  Set and track monthly spending budgets
+/goals           →  Create savings goals and contribute to them
+/recurring       →  View auto-detected recurring transactions
+/health-score    →  Financial Health Score with grade and tips
+/scan-receipt    →  AI receipt scanner
+/import          →  Bulk CSV import
+```
 
 ---
 
-## Author
+## For Recruiters
 
-Bhavish Pushkarna  
-Full Stack Developer  
+This project demonstrates end-to-end full-stack engineering across a non-trivial domain:
 
-GitHub: https://github.com/Bhavish2005  
+- **Backend design** — RESTful API with proper layering (Controller → Service → Repository), transaction consistency, and JWT security configured from scratch without shortcuts
+- **Database modeling** — relational schema with foreign keys, JPA entity relationships, and queries that use server-side filtering and pagination rather than loading everything into memory
+- **Third-party integration** — multipart file upload pipeline from React through Spring Boot to Google Gemini, with proper error handling and response parsing
+- **Scheduled automation** — Spring `@Scheduled` cron job that runs monthly email reports for every user, with a manual trigger available from the dashboard
+- **Frontend architecture** — 10-page React SPA with a custom design token system that makes dark mode a single prop on every component rather than duplicated class logic
+- **Real engineering trade-offs** — atomic default account enforcement, row-level CSV import error isolation, balance reversal on transaction edit/delete
 
 ---
+
+## License
+
+MIT — free to use, fork, and build on.

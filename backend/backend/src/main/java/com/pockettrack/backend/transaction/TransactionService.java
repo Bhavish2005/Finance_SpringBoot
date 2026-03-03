@@ -141,7 +141,7 @@
 
 
 package com.pockettrack.backend.transaction;
-
+import org.springframework.data.domain.Sort;
 import com.pockettrack.backend.account.Account;
 import com.pockettrack.backend.account.AccountRepository;
 import com.pockettrack.backend.budget.BudgetAlertService;
@@ -164,51 +164,52 @@ public class TransactionService {
     private final AccountRepository accountRepository;
     private final BudgetAlertService budgetAlertService;
 
-    public Page<Transaction> getTransactions(User user,
-                                             UUID accountId,
-                                             LocalDate from,
-                                             LocalDate to,
-                                             String category,
-                                             String type,
-                                             int page,
-                                             int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<Transaction> getTransactions(User user, UUID accountId,
+                                             Transaction.TransactionType type, String category,
+                                             LocalDate from, LocalDate to, int page, int size) {
 
-        // Default date range if not provided
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by(Sort.Direction.DESC, "date", "createdAt"));
+
         LocalDate dateFrom = from != null ? from : LocalDate.of(2000, 1, 1);
         LocalDate dateTo   = to   != null ? to   : LocalDate.now().plusYears(1);
 
-        Transaction.TransactionType txType = null;
-        if (type != null && !type.isBlank()) {
-            txType = Transaction.TransactionType.valueOf(type.toUpperCase());
+        // Account-specific queries
+        if (accountId != null) {
+            if (type != null && category != null)
+                return transactionRepository
+                        .findByAccountIdAndTypeAndCategoryAndDateBetween(
+                                accountId, type, category, dateFrom, dateTo, pageable);
+            if (type != null)
+                return transactionRepository
+                        .findByAccountIdAndTypeAndDateBetween(
+                                accountId, type, dateFrom, dateTo, pageable);
+            if (category != null)
+                return transactionRepository
+                        .findByAccountIdAndCategoryAndDateBetween(
+                                accountId, category, dateFrom, dateTo, pageable);
+            return transactionRepository
+                    .findByAccountIdAndDateBetween(
+                            accountId, dateFrom, dateTo, pageable);
         }
 
-        boolean hasCategory = category != null && !category.isBlank();
-        boolean hasType     = txType != null;
-
-        if (hasCategory && hasType) {
+        // User-wide queries (existing logic)
+        if (type != null && category != null)
             return transactionRepository
                     .findByUserIdAndCategoryAndTypeAndDateBetween(
-                            user.getId(), category, txType,
-                            dateFrom, dateTo, pageable);
-        } else if (hasCategory) {
+                            user.getId(), category, type, dateFrom, dateTo, pageable);
+        if (category != null)
             return transactionRepository
                     .findByUserIdAndCategoryAndDateBetween(
-                            user.getId(), category,
-                            dateFrom, dateTo, pageable);
-        } else if (hasType) {
+                            user.getId(), category, dateFrom, dateTo, pageable);
+        if (type != null)
             return transactionRepository
                     .findByUserIdAndTypeAndDateBetween(
-                            user.getId(), txType,
-                            dateFrom, dateTo, pageable);
-        } else if (from != null || to != null) {
-            return transactionRepository
-                    .findByUserIdAndDateBetween(
-                            user.getId(), dateFrom, dateTo, pageable);
-        } else {
-            return transactionRepository
-                    .findByUserId(user.getId(), pageable);
-        }
+                            user.getId(), type, dateFrom, dateTo, pageable);
+
+        return transactionRepository
+                .findByUserIdAndDateBetween(
+                        user.getId(), dateFrom, dateTo, pageable);
     }
 
     @Transactional

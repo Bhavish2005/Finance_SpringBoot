@@ -1,6 +1,7 @@
 package com.pockettrack.backend.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pockettrack.backend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,7 @@ public class Account {
 
     @Column(name = "is_default")
     @Builder.Default
+    @JsonProperty("isDefault")
     private boolean isDefault = false;
 
     @Column(name = "created_at", updatable = false)
