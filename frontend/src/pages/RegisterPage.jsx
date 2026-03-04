@@ -8,23 +8,23 @@ import {
   MdCheck
 } from 'react-icons/md'
 
-// Different illustration for register — shows goal/growth theme
+
 function GrowthIllustration() {
   return (
     <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"
       className="w-full max-w-sm mx-auto">
 
-      {/* Background rings */}
+    
       <circle cx="200" cy="200" r="150" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="none" />
       <circle cx="200" cy="200" r="100" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="none" />
 
-      {/* Line chart */}
+      
       <polyline
         points="60,300 100,260 150,270 200,200 250,180 300,140 340,110"
         stroke="rgba(99,179,237,0.5)" strokeWidth="2.5"
         strokeLinecap="round" strokeLinejoin="round" fill="none" />
 
-      {/* Chart fill */}
+      
       <polygon
         points="60,300 100,260 150,270 200,200 250,180 300,140 340,110 340,320 60,320"
         fill="url(#chartGrad)" />
@@ -36,25 +36,25 @@ function GrowthIllustration() {
         </linearGradient>
       </defs>
 
-      {/* Data points */}
+      
       {[[100,260],[150,270],[200,200],[250,180],[300,140]].map(([x,y], i) => (
         <circle key={i} cx={x} cy={y} r="5" fill="white" stroke="rgba(99,179,237,0.8)" strokeWidth="2">
           <animate attributeName="r" values="5;7;5" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
         </circle>
       ))}
 
-      {/* Goal card floating */}
+      
       <rect x="240" y="90" width="130" height="70" rx="14"
         fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.2)" strokeWidth="1">
         <animate attributeName="y" values="90;80;90" dur="3s" repeatCount="indefinite" />
       </rect>
       <rect x="256" y="106" width="50" height="5" rx="2.5" fill="rgba(255,255,255,0.3)" />
       <rect x="256" y="116" width="80" height="10" rx="4" fill="rgba(255,255,255,0.5)" />
-      {/* Progress bar in card */}
+      
       <rect x="256" y="134" width="98" height="5" rx="2.5" fill="rgba(255,255,255,0.1)" />
       <rect x="256" y="134" width="68" height="5" rx="2.5" fill="rgba(134,239,172,0.7)" />
 
-      {/* Budget card floating left */}
+     
       <rect x="30" y="150" width="120" height="65" rx="14"
         fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.15)" strokeWidth="1">
         <animate attributeName="y" values="150;162;150" dur="3.8s" repeatCount="indefinite" />
@@ -63,7 +63,7 @@ function GrowthIllustration() {
       <rect x="46" y="174" width="70" height="9" rx="3" fill="rgba(255,255,255,0.45)" />
       <rect x="46" y="188" width="55" height="5" rx="2.5" fill="rgba(252,165,165,0.5)" />
 
-      {/* Check badge */}
+      
       <circle cx="310" cy="250" r="24" fill="rgba(134,239,172,0.2)"
         stroke="rgba(134,239,172,0.4)" strokeWidth="2">
         <animate attributeName="r" values="24;28;24" dur="2.5s" repeatCount="indefinite" />
@@ -72,7 +72,7 @@ function GrowthIllustration() {
         stroke="rgba(134,239,172,0.9)" strokeWidth="2.5"
         strokeLinecap="round" strokeLinejoin="round" fill="none" />
 
-      {/* Sparkles */}
+      
       <circle cx="370" cy="90" r="4" fill="rgba(255,255,255,0.4)">
         <animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite" />
       </circle>
@@ -146,15 +146,15 @@ export default function RegisterPage() {
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur">
             <MdAccountBalance className="text-white text-xl" />
           </div>
-          <span className="text-white font-bold text-xl">PocketTrack</span>
+          <span className="text-white font-bold text-xl">FinanceVUE</span>
         </div>
 
-        {/* Illustration */}
+        
         <div className="relative z-10 w-full">
           <GrowthIllustration />
         </div>
 
-        {/* Text */}
+        
         <div className="relative z-10 mt-6 self-start">
           <h2 className="text-white text-2xl font-bold mb-4">
             Start your financial journey
@@ -172,11 +172,11 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* ---- Right Panel ---- */}
+      
       <div className="flex-1 flex items-center justify-center p-6 bg-white overflow-y-auto">
         <div className="w-full max-w-sm py-8">
 
-          {/* Mobile logo */}
+        
           <div className="flex items-center gap-2 mb-8 lg:hidden">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <MdAccountBalance className="text-white text-sm" />
@@ -184,7 +184,7 @@ export default function RegisterPage() {
             <span className="font-bold text-gray-900">PocketTrack</span>
           </div>
 
-          {/* Heading */}
+        
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Create account
@@ -194,10 +194,10 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* Form */}
+         
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Name */}
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Full name
@@ -213,7 +213,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Email */}
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Email address
@@ -229,7 +229,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Password */}
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Password
@@ -253,7 +253,7 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              {/* Password strength */}
+              
               {form.password.length > 0 && (
                 <div className="mt-2">
                   <div className="flex gap-1 mb-1">
@@ -276,7 +276,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Submit */}
+            
             <button type="submit" disabled={loading}
               className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors text-sm mt-2">
               {loading ? (
@@ -291,7 +291,7 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          {/* Divider */}
+         
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200" />
@@ -303,14 +303,14 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Login link */}
+          
           <Link to="/login"
             className="w-full flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-3 rounded-xl transition-colors text-sm">
             Sign in instead
             <MdArrowForward className="text-base" />
           </Link>
 
-          {/* Terms */}
+          
           <p className="text-xs text-gray-400 text-center mt-6">
             By creating an account you agree to our{' '}
             <a href="#" className="text-blue-500 hover:underline">Terms of Service</a>

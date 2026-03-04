@@ -36,7 +36,7 @@ public class HealthScoreController {
         int month       = now.getMonthValue();
         int year        = now.getYear();
 
-        // Fetch this month's transactions
+
         List<Transaction> txs = transactionRepository
                 .findByUserIdAndDateBetween(
                         user.getId(), start, now,
@@ -55,8 +55,7 @@ public class HealthScoreController {
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // ---- Component 1: Savings Rate (30 points) ----
-        // Good = saving 20%+ of income
+
         double savingsScore = 0;
         String savingsMsg;
         if (income.compareTo(BigDecimal.ZERO) > 0) {
@@ -75,11 +74,11 @@ public class HealthScoreController {
             savingsMsg = "No income recorded this month";
         }
 
-        // ---- Component 2: Budget Adherence (25 points) ----
+
         var budgets = budgetRepository
                 .findByUserIdAndMonthAndYear(user.getId(), month, year);
 
-        double budgetScore = 25; // Start full, deduct for overruns
+        double budgetScore = 25;
         String budgetMsg;
         int overBudget = 0;
 

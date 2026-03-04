@@ -1,472 +1,182 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import {
-  MdAccountBalance, MdDocumentScanner, MdTrackChanges,
-  MdStar, MdFavorite, MdTrendingUp, MdSecurity,
-  MdSpeed, MdSmartphone, MdCheck, MdArrowForward,
-  MdEmail, MdPhone, MdLocationOn, MdNotifications
-} from 'react-icons/md'
-import logo from '../assets/logo.svg'
+import { useEffect, useState } from 'react'
+import emailjs from '@emailjs/browser'
+import { MdArrowForward } from 'react-icons/md'
 import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa'
+import logo from '../assets/logo.svg'
+import styles from '../LandingPage.module.css'
 
-function HeroDashboardVector() {
+
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+function HeroIllustration() {
   return (
-    <svg viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <svg viewBox="0 0 560 440" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
       <defs>
-        <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1E40AF" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#1E3A8A" stopOpacity="0.95" />
+        <linearGradient id="hCard" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1E3A8A" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.9" />
         </linearGradient>
-        <linearGradient id="greenLine" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#10B981" />
-          <stop offset="100%" stopColor="#34D399" />
+        <linearGradient id="hGreen" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stopColor="#00C4B3" /><stop offset="100%" stopColor="#34D399" />
         </linearGradient>
-        <linearGradient id="redLine" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0%" stopColor="#EF4444" />
-          <stop offset="100%" stopColor="#F87171" />
+        <linearGradient id="hArea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#00C4B3" stopOpacity="0.25" /><stop offset="100%" stopColor="#00C4B3" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="100%" stopColor="#6366F1" />
-        </linearGradient>
-        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-        </linearGradient>
-        <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
-          <feDropShadow dx="0" dy="8" stdDeviation="16" floodColor="#000" floodOpacity="0.15" />
-        </filter>
-        <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="120%">
-          <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.12" />
-        </filter>
+        <filter id="hShadow"><feDropShadow dx="0" dy="10" stdDeviation="18" floodColor="#000" floodOpacity="0.18" /></filter>
+        <filter id="hCardSm"><feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="#000" floodOpacity="0.12" /></filter>
       </defs>
-
-      
-      <rect x="40" y="20" width="340" height="240" rx="20" fill="url(#cardGrad)" filter="url(#shadow)" />
-
-     
-      <rect x="40" y="20" width="340" height="52" rx="20" fill="rgba(255,255,255,0.06)" />
-      <rect x="40" y="52" width="340" height="20" fill="rgba(255,255,255,0.06)" />
-
-      
-      <circle cx="68" cy="46" r="12" fill="#3B82F6" />
-      <circle cx="68" cy="46" r="6" fill="rgba(255,255,255,0.4)" />
-      <rect x="88" y="38" width="80" height="7" rx="3.5" fill="rgba(255,255,255,0.6)" />
-      <rect x="88" y="49" width="52" height="5" rx="2.5" fill="rgba(255,255,255,0.25)" />
-
-     
-      <rect x="334" y="34" width="36" height="20" rx="10" fill="rgba(16,185,129,0.2)" />
-      <rect x="340" y="40" width="24" height="8" rx="4" fill="rgba(16,185,129,0.7)" />
-
-     
-      <rect x="60" y="88" width="60" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
-      <rect x="60" y="100" width="140" height="18" rx="5" fill="rgba(255,255,255,0.85)" />
-      <rect x="60" y="124" width="80" height="6" rx="3" fill="rgba(16,185,129,0.6)" />
-
-     
-      <polygon points="220,185 255,165 280,170 310,148 340,140 370,125 370,210 220,210"
-        fill="url(#areaGrad)" />
-      <polyline points="220,185 255,165 280,170 310,148 340,140 370,125"
-        stroke="url(#greenLine)" strokeWidth="2.5" fill="none"
-        strokeLinecap="round" strokeLinejoin="round" />
-      {[220,255,280,310,340,370].map((x, i) => {
-        const ys = [185,165,170,148,140,125]
-        return <circle key={i} cx={x} cy={ys[i]} r="3.5" fill="white" stroke="#10B981" strokeWidth="1.5" />
-      })}
-
-      
-      <rect x="60" y="160" width="140" height="6" rx="3" fill="rgba(255,255,255,0.1)" />
-      <rect x="60" y="160" width="95" height="6" rx="3" fill="#3B82F6" />
-      <rect x="60" y="174" width="140" height="6" rx="3" fill="rgba(255,255,255,0.1)" />
-      <rect x="60" y="174" width="112" height="6" rx="3" fill="#10B981" />
-      <rect x="60" y="188" width="140" height="6" rx="3" fill="rgba(255,255,255,0.1)" />
-      <rect x="60" y="188" width="60" height="6" rx="3" fill="#F59E0B" />
-
-      
-      {[0,1,2,3,4,5].map(i => {
-        const heights = [28,40,32,50,38,45]
-        const x = 60 + i * 26
-        return (
-          <rect key={i} x={x} y={230 - heights[i]} width="16" height={heights[i]}
-            rx="4" fill={i === 3 || i === 5 ? 'url(#barGrad)' : 'rgba(255,255,255,0.15)'} />
-        )
-      })}
-      <rect x="60" y="232" width="200" height="1" fill="rgba(255,255,255,0.1)" />
-
-     
-      <rect x="300" y="180" width="148" height="80" rx="16" fill="white" filter="url(#cardShadow)">
-        <animate attributeName="y" values="180;168;180" dur="3.5s" repeatCount="indefinite" />
-      </rect>
-      <circle cx="324" cy="204" r="12" fill="#D1FAE5">
-        <animate attributeName="cy" values="204;192;204" dur="3.5s" repeatCount="indefinite" />
-      </circle>
-      <rect x="342" y="197" width="40" height="6" rx="3" fill="#E5E7EB">
-        <animate attributeName="y" values="197;185;197" dur="3.5s" repeatCount="indefinite" />
-      </rect>
-      <rect x="342" y="208" width="60" height="9" rx="3" fill="#111827">
-        <animate attributeName="y" values="208;196;208" dur="3.5s" repeatCount="indefinite" />
-      </rect>
-      <rect x="316" y="224" width="80" height="6" rx="3" fill="#10B981">
-        <animate attributeName="y" values="224;212;224" dur="3.5s" repeatCount="indefinite" />
-      </rect>
-      
-      <polygon points="321,208 327,208 324,202" fill="#10B981">
-        <animate attributeName="points"
-          values="321,208 327,208 324,202; 321,196 327,196 324,190; 321,208 327,208 324,202"
-          dur="3.5s" repeatCount="indefinite" />
-      </polygon>
-
-      
-      <rect x="0" y="160" width="148" height="80" rx="16" fill="white" filter="url(#cardShadow)">
-        <animate attributeName="y" values="160;172;160" dur="4s" repeatCount="indefinite" />
-      </rect>
-      <circle cx="24" cy="184" r="12" fill="#FEE2E2">
-        <animate attributeName="cy" values="184;196;184" dur="4s" repeatCount="indefinite" />
-      </circle>
-      <rect x="42" y="177" width="40" height="6" rx="3" fill="#E5E7EB">
-        <animate attributeName="y" values="177;189;177" dur="4s" repeatCount="indefinite" />
-      </rect>
-      <rect x="42" y="188" width="60" height="9" rx="3" fill="#111827">
-        <animate attributeName="y" values="188;200;188" dur="4s" repeatCount="indefinite" />
-      </rect>
-      <rect x="16" y="205" width="100" height="5" rx="2.5" fill="#F3F4F6">
-        <animate attributeName="y" values="205;217;205" dur="4s" repeatCount="indefinite" />
-      </rect>
-      <rect x="16" y="205" width="64" height="5" rx="2.5" fill="#EF4444">
-        <animate attributeName="y" values="205;217;205" dur="4s" repeatCount="indefinite" />
-      </rect>
-
-      
-      <rect x="340" y="280" width="110" height="64" rx="16" fill="white" filter="url(#cardShadow)">
-        <animate attributeName="y" values="280;268;280" dur="5s" repeatCount="indefinite" />
-      </rect>
-      <circle cx="367" cy="309" r="16" fill="none" stroke="#E5E7EB" strokeWidth="3">
-        <animate attributeName="cy" values="309;297;309" dur="5s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="367" cy="309" r="16" fill="none" stroke="#10B981" strokeWidth="3"
-        strokeDasharray="60" strokeDashoffset="18"
-        transform="rotate(-90 367 309)" strokeLinecap="round">
-        <animate attributeName="cy" values="309;297;309" dur="5s" repeatCount="indefinite" />
-      </circle>
-      <rect x="389" y="300" width="35" height="6" rx="3" fill="#E5E7EB">
-        <animate attributeName="y" values="300;288;300" dur="5s" repeatCount="indefinite" />
-      </rect>
-      <rect x="389" y="311" width="48" height="9" rx="3" fill="#111827">
-        <animate attributeName="y" values="311;299;311" dur="5s" repeatCount="indefinite" />
-      </rect>
-
-    
-      <rect x="20" y="280" width="130" height="72" rx="16" fill="white" filter="url(#cardShadow)">
-        <animate attributeName="y" values="280;292;280" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="36" y="294" width="34" height="42" rx="6" fill="#EFF6FF">
-        <animate attributeName="y" values="294;306;294" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="40" y="298" width="26" height="3" rx="1.5" fill="#BFDBFE">
-        <animate attributeName="y" values="298;310;298" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="40" y="305" width="20" height="3" rx="1.5" fill="#BFDBFE">
-        <animate attributeName="y" values="305;317;305" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="40" y="312" width="23" height="3" rx="1.5" fill="#BFDBFE">
-        <animate attributeName="y" values="312;324;312" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="40" y="319" width="18" height="3" rx="1.5" fill="#93C5FD">
-        <animate attributeName="y" values="319;331;319" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="78" y="294" width="60" height="6" rx="3" fill="#E5E7EB">
-        <animate attributeName="y" values="294;306;294" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="78" y="305" width="44" height="9" rx="3" fill="#111827">
-        <animate attributeName="y" values="305;317;305" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="78" y="320" width="56" height="6" rx="3" fill="#3B82F6">
-        <animate attributeName="y" values="320;332;320" dur="3.8s" repeatCount="indefinite" />
-      </rect>
-
-     
-      <circle cx="480" cy="60" r="5" fill="#3B82F6" opacity="0.4">
-        <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="500" cy="180" r="3.5" fill="#10B981" opacity="0.5">
-        <animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="10" cy="80" r="4" fill="#F59E0B" opacity="0.4">
-        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="3.2s" repeatCount="indefinite" />
-      </circle>
+      <rect x="60" y="20" width="360" height="250" rx="22" fill="url(#hCard)" filter="url(#hShadow)" />
+      <rect x="60" y="20" width="360" height="56" rx="22" fill="rgba(255,255,255,0.07)" />
+      <rect x="60" y="56" width="360" height="20" fill="rgba(255,255,255,0.07)" />
+      <circle cx="90" cy="48" r="13" fill="#00C4B3" opacity="0.85" />
+      <circle cx="90" cy="48" r="6" fill="rgba(255,255,255,0.5)" />
+      <rect x="112" y="39" width="90" height="7" rx="3.5" fill="rgba(255,255,255,0.55)" />
+      <rect x="112" y="51" width="55" height="5" rx="2.5" fill="rgba(255,255,255,0.25)" />
+      <rect x="80" y="90" width="65" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
+      <rect x="80" y="104" width="150" height="20" rx="5" fill="rgba(255,255,255,0.88)" />
+      <rect x="80" y="130" width="85" height="6" rx="3" fill="rgba(0,196,179,0.65)" />
+      <polygon points="230,200 268,180 296,184 326,162 356,154 386,140 386,220 230,220" fill="url(#hArea)" />
+      <polyline points="230,200 268,180 296,184 326,162 356,154 386,140" stroke="url(#hGreen)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {[230,268,296,326,356,386].map((x,i) => { const ys=[200,180,184,162,154,140]; return <circle key={i} cx={x} cy={ys[i]} r="3.5" fill="white" stroke="#00C4B3" strokeWidth="1.5" /> })}
+      {[0,1,2,3,4,5].map(i => { const hs=[28,42,33,52,38,47]; return <rect key={i} x={80+i*27} y={242-hs[i]} width="17" height={hs[i]} rx="5" fill={i===3||i===5?'rgba(0,196,179,0.7)':'rgba(255,255,255,0.15)'} /> })}
+      <rect x="80" y="244" width="210" height="1" fill="rgba(255,255,255,0.1)" />
+      <rect x="320" y="190" width="155" height="82" rx="18" fill="white" filter="url(#hCardSm)"><animate attributeName="y" values="190;178;190" dur="3.8s" repeatCount="indefinite" /></rect>
+      <circle cx="347" cy="216" r="13" fill="#D1FAE5"><animate attributeName="cy" values="216;204;216" dur="3.8s" repeatCount="indefinite" /></circle>
+      <rect x="367" y="208" width="45" height="6" rx="3" fill="#E2E8F0"><animate attributeName="y" values="208;196;208" dur="3.8s" repeatCount="indefinite" /></rect>
+      <rect x="367" y="220" width="65" height="10" rx="4" fill="#111827"><animate attributeName="y" values="220;208;220" dur="3.8s" repeatCount="indefinite" /></rect>
+      <rect x="337" y="238" width="90" height="6" rx="3" fill="#00C4B3"><animate attributeName="y" values="238;226;238" dur="3.8s" repeatCount="indefinite" /></rect>
+      <rect x="20" y="170" width="150" height="82" rx="18" fill="white" filter="url(#hCardSm)"><animate attributeName="y" values="170;182;170" dur="4.2s" repeatCount="indefinite" /></rect>
+      <circle cx="45" cy="196" r="13" fill="#FEE2E2"><animate attributeName="cy" values="196;208;196" dur="4.2s" repeatCount="indefinite" /></circle>
+      <rect x="65" y="188" width="45" height="6" rx="3" fill="#E2E8F0"><animate attributeName="y" values="188;200;188" dur="4.2s" repeatCount="indefinite" /></rect>
+      <rect x="65" y="200" width="65" height="10" rx="4" fill="#111827"><animate attributeName="y" values="200;212;200" dur="4.2s" repeatCount="indefinite" /></rect>
+      <rect x="30" y="220" width="110" height="5" rx="2.5" fill="#F3F4F6"><animate attributeName="y" values="220;232;220" dur="4.2s" repeatCount="indefinite" /></rect>
+      <rect x="30" y="220" width="68" height="5" rx="2.5" fill="#EF4444"><animate attributeName="y" values="220;232;220" dur="4.2s" repeatCount="indefinite" /></rect>
+      <rect x="350" y="295" width="115" height="70" rx="18" fill="white" filter="url(#hCardSm)"><animate attributeName="y" values="295;283;295" dur="5s" repeatCount="indefinite" /></rect>
+      <circle cx="380" cy="325" r="18" fill="none" stroke="#E5E7EB" strokeWidth="3.5"><animate attributeName="cy" values="325;313;325" dur="5s" repeatCount="indefinite" /></circle>
+      <circle cx="380" cy="325" r="18" fill="none" stroke="#00C4B3" strokeWidth="3.5" strokeDasharray="113" strokeDashoffset="28" strokeLinecap="round" transform="rotate(-90 380 325)"><animate attributeName="cy" values="325;313;325" dur="5s" repeatCount="indefinite" /></circle>
+      <rect x="403" y="316" width="40" height="6" rx="3" fill="#E2E8F0"><animate attributeName="y" values="316;304;316" dur="5s" repeatCount="indefinite" /></rect>
+      <rect x="403" y="326" width="52" height="10" rx="4" fill="#111827"><animate attributeName="y" values="326;314;326" dur="5s" repeatCount="indefinite" /></rect>
+      <circle cx="510" cy="55" r="5.5" fill="#00C4B3" opacity="0.4"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite" /></circle>
+      <circle cx="530" cy="190" r="4" fill="#4A90D9" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" /></circle>
+      <circle cx="15" cy="75" r="4.5" fill="#F59E0B" opacity="0.4"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="3.5s" repeatCount="indefinite" /></circle>
     </svg>
   )
 }
 
-function ReceiptScanVector() {
+function ReceiptScanIllustration() {
   return (
-    <svg viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <defs>
-        <linearGradient id="phoneGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1E293B" />
-          <stop offset="100%" stopColor="#0F172A" />
-        </linearGradient>
-        <linearGradient id="scanLine" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%"   stopColor="#3B82F6" stopOpacity="0" />
-          <stop offset="50%"  stopColor="#3B82F6" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-     
-      <rect x="80" y="10" width="120" height="200" rx="16" fill="url(#phoneGrad)" />
-      <rect x="85" y="15" width="110" height="190" rx="12" fill="#1E293B" />
-      
-      <rect x="115" y="18" width="50" height="10" rx="5" fill="#0F172A" />
-      <circle cx="140" cy="23" r="3" fill="#334155" />
-      
-      <rect x="90" y="35" width="100" height="155" rx="8" fill="#0F172A" />
-      
-      <rect x="105" y="50" width="70" height="100" rx="6" fill="white" />
-      <rect x="112" y="60" width="56" height="4" rx="2" fill="#E5E7EB" />
-      <rect x="112" y="68" width="40" height="4" rx="2" fill="#E5E7EB" />
-      <rect x="112" y="76" width="56" height="1" rx="0.5" fill="#F3F4F6" />
-      <rect x="112" y="82" width="30" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="148" y="82" width="20" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="112" y="89" width="35" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="148" y="89" width="18" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="112" y="96" width="28" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="148" y="96" width="20" height="3" rx="1.5" fill="#E5E7EB" />
-      <rect x="112" y="103" width="56" height="1" rx="0.5" fill="#F3F4F6" />
-      <rect x="112" y="108" width="28" height="5" rx="2" fill="#111827" />
-      <rect x="140" y="108" width="28" height="5" rx="2" fill="#3B82F6" />
-      
-      <path d="M100 46 L100 56 L110 56" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <path d="M180 46 L180 56 L170 56" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <path d="M100 154 L100 144 L110 144" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <path d="M180 154 L180 144 L170 144" stroke="#3B82F6" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-     
-      <rect x="100" y="95" width="80" height="2" rx="1" fill="url(#scanLine)">
-        <animate attributeName="y" values="52;148;52" dur="2.5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite" />
+    <svg viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 220 }}>
+      <defs><linearGradient id="scanGr" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#00C4B3" stopOpacity="0" /><stop offset="50%" stopColor="#00C4B3" /><stop offset="100%" stopColor="#00C4B3" stopOpacity="0" /></linearGradient></defs>
+      <rect x="90" y="10" width="130" height="210" rx="18" fill="#1E293B" />
+      <rect x="95" y="16" width="120" height="198" rx="14" fill="#0F172A" />
+      <rect x="125" y="20" width="55" height="10" rx="5" fill="#0F172A" />
+      <circle cx="152" cy="26" r="3.5" fill="#334155" />
+      <rect x="100" y="38" width="110" height="162" rx="10" fill="#0F172A" />
+      <rect x="114" y="52" width="78" height="108" rx="7" fill="white" />
+      <rect x="122" y="62" width="62" height="4" rx="2" fill="#E2E8F0" />
+      <rect x="122" y="70" width="44" height="4" rx="2" fill="#E2E8F0" />
+      <rect x="122" y="78" width="62" height="1" rx=".5" fill="#F1F5F9" />
+      {[84,92,100,108].map((y,i) => (<g key={i}><rect x="122" y={y} width={28+i*4} height="3" rx="1.5" fill="#E2E8F0" /><rect x={156+i} y={y} width={18+i*2} height="3" rx="1.5" fill="#E2E8F0" /></g>))}
+      <rect x="122" y="116" width="62" height="1" rx=".5" fill="#F1F5F9" />
+      <rect x="122" y="122" width="30" height="6" rx="2" fill="#111827" />
+      <rect x="154" y="122" width="30" height="6" rx="2" fill="#00C4B3" />
+      <path d="M108 46 L108 56 L118 56" stroke="#00C4B3" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M192 46 L192 56 L182 56" stroke="#00C4B3" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M108 164 L108 154 L118 154" stroke="#00C4B3" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d="M192 164 L192 154 L182 154" stroke="#00C4B3" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <rect x="108" y="100" width="84" height="2.5" rx="1.25" fill="url(#scanGr)" opacity="0.9">
+        <animate attributeName="y" values="52;158;52" dur="2.4s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.5;1" dur="2.4s" repeatCount="indefinite" />
       </rect>
-      
-      <rect x="20" y="80" width="54" height="24" rx="12" fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.5s" repeatCount="indefinite" />
-      </rect>
-      <rect x="28" y="89" width="38" height="6" rx="3" fill="#3B82F6">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="0.5s" repeatCount="indefinite" />
-      </rect>
-      <rect x="207" y="90" width="60" height="24" rx="12" fill="#F0FDF4" stroke="#BBF7D0" strokeWidth="1">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="1.2s" repeatCount="indefinite" />
-      </rect>
-      <rect x="215" y="99" width="44" height="6" rx="3" fill="#10B981">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="1.2s" repeatCount="indefinite" />
-      </rect>
-      <rect x="15" y="120" width="60" height="24" rx="12" fill="#FFF7ED" stroke="#FED7AA" strokeWidth="1">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="1.8s" repeatCount="indefinite" />
-      </rect>
-      <rect x="23" y="129" width="44" height="6" rx="3" fill="#F59E0B">
-        <animate attributeName="opacity" values="0;1;1;0" dur="3s" begin="1.8s" repeatCount="indefinite" />
-      </rect>
-    </svg>
-  )
-}
-
-function BudgetVector() {
-  return (
-    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <defs>
-        <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#EFF6FF" />
-          <stop offset="100%" stopColor="#F0F9FF" />
-        </linearGradient>
-      </defs>
-      <rect x="10" y="10" width="260" height="180" rx="16" fill="url(#bg2)" />
-      <rect x="24" y="26" width="90" height="7" rx="3.5" fill="#BFDBFE" />
-      <rect x="24" y="38" width="60" height="12" rx="4" fill="#1E40AF" />
-     
-      {[
-        { label: 72, bar: 140, color: '#EF4444', w: 92 },
-        { label: 55, bar: 155, color: '#F59E0B', w: 110 },
-        { label: 38, bar: 170, color: '#10B981', w: 144 },
-        { label: 60, bar: 185, color: '#3B82F6', w: 76  },
-      ].map(({ label, bar, color, w }, i) => (
+      {[{x:22,y:80,c:'#EFF6FF',bc:'#BFDBFE',tc:'#3B82F6',d:'0.4s'},{x:222,y:90,c:'#F0FDF4',bc:'#BBF7D0',tc:'#00C4B3',d:'1.1s'},{x:18,y:120,c:'#FFF7ED',bc:'#FED7AA',tc:'#F59E0B',d:'1.7s'}].map(({x,y,c,bc,tc,d},i) => (
         <g key={i}>
-          <rect x="24"  y={bar} width={label} height="7" rx="3.5" fill="#DBEAFE" />
-          <rect x="100" y={bar} width="156"   height="7" rx="3.5" fill="#F1F5F9" />
-          <rect x="100" y={bar} width={w}     height="7" rx="3.5" fill={color} opacity="0.8" />
+          <rect x={x} y={y} width={68} height={26} rx="13" fill={c} stroke={bc} strokeWidth="1"><animate attributeName="opacity" values="0;1;1;0" dur="3s" begin={d} repeatCount="indefinite" /></rect>
+          <rect x={x+8} y={y+9} width={52} height="7" rx="3.5" fill={tc}><animate attributeName="opacity" values="0;1;1;0" dur="3s" begin={d} repeatCount="indefinite" /></rect>
         </g>
       ))}
-      
-      <rect x="170" y="20" width="90" height="36" rx="10" fill="white"
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.08))' }}>
-        <animate attributeName="y" values="20;14;20" dur="3s" repeatCount="indefinite" />
-      </rect>
-      <circle cx="188" cy="38" r="9" fill="#FEE2E2">
-        <animate attributeName="cy" values="38;32;38" dur="3s" repeatCount="indefinite" />
-      </circle>
-      <rect x="201" y="32" width="50" height="5" rx="2.5" fill="#E5E7EB">
-        <animate attributeName="y" values="32;26;32" dur="3s" repeatCount="indefinite" />
-      </rect>
-      <rect x="201" y="41" width="38" height="7" rx="3" fill="#EF4444">
-        <animate attributeName="y" values="41;35;41" dur="3s" repeatCount="indefinite" />
-      </rect>
-      
-      <circle cx="224" cy="130" r="36" fill="none" stroke="#EFF6FF" strokeWidth="10" />
-      <circle cx="224" cy="130" r="36" fill="none" stroke="#3B82F6" strokeWidth="10"
-        strokeDasharray="226" strokeDashoffset="68"
-        strokeLinecap="round" transform="rotate(-90 224 130)">
-        <animate attributeName="stroke-dashoffset" values="226;68;68" dur="1.5s" fill="freeze" />
-      </circle>
-      <circle cx="224" cy="130" r="36" fill="none" stroke="#10B981" strokeWidth="10"
-        strokeDasharray="226" strokeDashoffset="136"
-        strokeLinecap="round" transform="rotate(-90 224 130)">
-        <animate attributeName="stroke-dashoffset" values="226;136;136" dur="1.5s" begin="0.3s" fill="freeze" />
-      </circle>
-      <rect x="208" y="124" width="32" height="12" rx="4" fill="#1E40AF" />
     </svg>
   )
 }
 
-function GoalsVector() {
+function BudgetIllustration() {
+  const bars = [{ pct: 0.65, c: '#EF4444', label: 'Housing' },{ pct: 0.82, c: '#F59E0B', label: 'Food' },{ pct: 0.48, c: '#00C4B3', label: 'Transport' },{ pct: 0.72, c: '#4A90D9', label: 'Savings' }]
   return (
-    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      
-      <rect x="20" y="30" width="240" height="55" rx="14" fill="#F0FDF4"
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.06))' }} />
-      <rect x="20" y="95" width="240" height="55" rx="14" fill="#EFF6FF"
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.06))' }} />
-      <rect x="20" y="160" width="240" height="30" rx="10" fill="#FFFBEB"
-        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.04))' }} />
-
-      
-      <circle cx="50" cy="57" r="14" fill="#D1FAE5" />
-      <polyline points="43,57 48,62 57,51" stroke="#10B981" strokeWidth="2.5"
-        fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="72" y="46" width="80" height="6" rx="3" fill="#374151" />
-      <rect x="72" y="57" width="140" height="5" rx="2.5" fill="#E5E7EB" />
-      <rect x="72" y="57" width="140" height="5" rx="2.5" fill="#10B981" />
-      <rect x="218" y="47" width="30" height="16" rx="8" fill="#D1FAE5" />
-      <rect x="223" y="52" width="20" height="6" rx="3" fill="#10B981" />
-
-    
-      <circle cx="50" cy="122" r="14" fill="#DBEAFE" />
-      <circle cx="50" cy="122" r="8" fill="none" stroke="#BFDBFE" strokeWidth="2" />
-      <circle cx="50" cy="122" r="8" fill="none" stroke="#3B82F6" strokeWidth="2"
-        strokeDasharray="35" strokeDashoffset="12"
-        transform="rotate(-90 50 122)" strokeLinecap="round">
-        <animate attributeName="stroke-dashoffset" values="35;12;12" dur="1.5s" fill="freeze" />
-      </circle>
-      <rect x="72" y="111" width="68" height="6" rx="3" fill="#374151" />
-      <rect x="72" y="122" width="140" height="5" rx="2.5" fill="#E5E7EB" />
-      <rect x="72" y="122" width="86" height="5" rx="2.5" fill="#3B82F6">
-        <animate attributeName="width" values="0;86;86" dur="1.5s" fill="freeze" />
-      </rect>
-      <rect x="218" y="112" width="30" height="16" rx="8" fill="#DBEAFE" />
-      <rect x="223" y="117" width="20" height="6" rx="3" fill="#3B82F6" />
-
-     
-      <circle cx="50" cy="175" r="10" fill="#FEF3C7" />
-      <rect x="66" y="171" width="50" height="5" rx="2.5" fill="#92400E" opacity="0.5" />
-      <rect x="122" y="171" width="100" height="5" rx="2.5" fill="#F3F4F6" />
-      <rect x="122" y="171" width="24" height="5" rx="2.5" fill="#F59E0B" />
-
-    
-      <circle cx="248" cy="175" r="12" fill="#3B82F6">
-        <animate attributeName="r" values="12;14;12" dur="2s" repeatCount="indefinite" />
-      </circle>
-      <rect x="243" y="174" width="10" height="2" rx="1" fill="white" />
-      <rect x="247" y="170" width="2" height="10" rx="1" fill="white" />
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#EFF6FF" />
+      <rect x="28" y="28" width="100" height="7" rx="3.5" fill="#BFDBFE" />
+      <rect x="28" y="40" width="68" height="14" rx="5" fill="#1E40AF" />
+      {bars.map(({ pct, c, label }, i) => { const y = 80 + i * 32; return (<g key={i}><text x="28" y={y+9} fontSize="10" fill="#64748B" fontFamily="DM Sans,sans-serif">{label}</text><rect x="100" y={y} width="196" height="10" rx="5" fill="#DBEAFE" /><rect x="100" y={y} width={196*pct} height="10" rx="5" fill={c} opacity="0.85" /><text x={100+196*pct+4} y={y+9} fontSize="10" fill={c} fontFamily="DM Sans,sans-serif" fontWeight="600">{Math.round(pct*100)}%</text></g>) })}
+      <circle cx="264" cy="52" r="30" fill="none" stroke="#DBEAFE" strokeWidth="9" />
+      <circle cx="264" cy="52" r="30" fill="none" stroke="#00C4B3" strokeWidth="9" strokeDasharray="188" strokeDashoffset="56" strokeLinecap="round" transform="rotate(-90 264 52)" />
+      <text x="264" y="57" textAnchor="middle" fontSize="11" fill="#1E40AF" fontWeight="700" fontFamily="Plus Jakarta Sans,sans-serif">70%</text>
     </svg>
   )
 }
 
-function HealthScoreVector() {
+function DashboardIllustration() {
   return (
-    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
       <defs>
-        <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="100%" stopColor="#10B981" />
-        </linearGradient>
+        <linearGradient id="dBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#00C4B3" /><stop offset="100%" stopColor="#4A90D9" /></linearGradient>
+        <linearGradient id="dArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#00C4B3" stopOpacity="0.2" /><stop offset="100%" stopColor="#00C4B3" stopOpacity="0" /></linearGradient>
       </defs>
-      
-      <circle cx="100" cy="100" r="70" fill="#F8FAFC" />
-      <circle cx="100" cy="100" r="56" fill="none" stroke="#E5E7EB" strokeWidth="12" />
-      <circle cx="100" cy="100" r="56" fill="none" stroke="url(#scoreGrad)" strokeWidth="12"
-        strokeDasharray="352" strokeDashoffset="88"
-        strokeLinecap="round" transform="rotate(-90 100 100)">
-        <animate attributeName="stroke-dashoffset" values="352;88;88" dur="2s" fill="freeze" />
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#F0F9FF" />
+      <rect x="28" y="28" width="120" height="7" rx="3.5" fill="#BAE6FD" />
+      <rect x="28" y="40" width="85" height="14" rx="5" fill="#0C4A6E" />
+      {[55,75,45,90,65,80,58].map((h,i) => (<rect key={i} x={32+i*38} y={172-h} width="22" height={h} rx="6" fill={i===3||i===5?'url(#dBar)':'rgba(0,196,179,0.25)'} />))}
+      <polygon points="32,140 70,120 108,130 146,102 184,96 222,80 260,86 260,172 32,172" fill="url(#dArea)" />
+      <polyline points="32,140 70,120 108,130 146,102 184,96 222,80 260,86" stroke="#4A90D9" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {[32,70,108,146,184,222,260].map((x,i) => { const ys=[140,120,130,102,96,80,86]; return <circle key={i} cx={x} cy={ys[i]} r="3.5" fill="#fff" stroke="#4A90D9" strokeWidth="2" /> })}
+      {[100,130,160].map(y => (<line key={y} x1="28" y1={y} x2="292" y2={y} stroke="#E0F2FE" strokeWidth="0.8" />))}
+    </svg>
+  )
+}
+
+function GoalsIllustration() {
+  const goals = [{ label: 'Emergency Fund', pct: 0.75, c: '#00C4B3' },{ label: 'Vacation', pct: 0.45, c: '#4A90D9' },{ label: 'New Laptop', pct: 0.9, c: '#F59E0B' }]
+  return (
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#F0FDF4" />
+      <rect x="28" y="28" width="110" height="7" rx="3.5" fill="#BBF7D0" />
+      <rect x="28" y="40" width="78" height="14" rx="5" fill="#14532D" />
+      {goals.map(({ label, pct, c }, i) => { const y = 80 + i * 42; return (<g key={i}><text x="28" y={y+10} fontSize="11" fill="#374151" fontFamily="DM Sans,sans-serif">{label}</text><text x={28+196*pct} y={y+10} fontSize="10" fill={c} fontFamily="DM Sans,sans-serif" fontWeight="700" textAnchor="end">{Math.round(pct*100)}%</text><rect x="28" y={y+14} width="196" height="12" rx="6" fill="#E5E7EB" /><rect x="28" y={y+14} width={196*pct} height="12" rx="6" fill={c}><animate attributeName="width" from="0" to={196*pct} dur={`${1+i*0.3}s`} fill="freeze" /></rect></g>) })}
+    </svg>
+  )
+}
+
+function HealthScoreIllustration() {
+  return (
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#FFF7ED" />
+      <rect x="28" y="28" width="130" height="7" rx="3.5" fill="#FED7AA" />
+      <rect x="28" y="40" width="90" height="14" rx="5" fill="#7C2D12" />
+      <circle cx="160" cy="130" r="64" fill="none" stroke="#FEE2E2" strokeWidth="12" />
+      <circle cx="160" cy="130" r="64" fill="none" stroke="#00C4B3" strokeWidth="12" strokeDasharray="402" strokeDashoffset="80" strokeLinecap="round" transform="rotate(-90 160 130)">
+        <animate attributeName="stroke-dashoffset" values="402;80" dur="1.6s" fill="freeze" />
       </circle>
-      <rect x="76" y="88" width="48" height="18" rx="6" fill="#111827" />
-      <rect x="82" y="110" width="36" height="6" rx="3" fill="#6B7280" />
-      
-      <circle cx="100" cy="36" r="16" fill="#DBEAFE" />
-      <rect x="90" y="31" width="20" height="10" rx="4" fill="#3B82F6" />
-      
-      {[
-        { y: 50,  w: 90,  color: '#10B981', label: 30 },
-        { y: 74,  w: 72,  color: '#3B82F6', label: 24 },
-        { y: 98,  w: 80,  color: '#F59E0B', label: 20 },
-        { y: 122, w: 60,  color: '#6366F1', label: 16 },
-      ].map(({ y, w, color, label }, i) => (
+      <text x="160" y="124" textAnchor="middle" fontSize="28" fontWeight="800" fill="#1E293B" fontFamily="Plus Jakarta Sans,sans-serif">82</text>
+      <text x="160" y="142" textAnchor="middle" fontSize="11" fill="#64748B" fontFamily="DM Sans,sans-serif">Health Score</text>
+      {[{ x: 42, y: 90, t: 'Savings', v: 'A+' },{ x: 230, y: 90, t: 'Discipline', v: 'B+' }].map(({ x, y, t, v }, i) => (
         <g key={i}>
-          <rect x="186" y={y}       width="80"  height="8" rx="4" fill="#F1F5F9" />
-          <rect x="186" y={y}       width={w}   height="8" rx="4" fill={color} opacity="0.8">
-            <animate attributeName="width" values={`0;${w};${w}`} dur="1.5s" begin={`${i*0.2}s`} fill="freeze" />
-          </rect>
-          <rect x="274" y={y+1}    width={label < 20 ? 16 : 20} height="6" rx="3" fill="#374151" />
+          <rect x={x} y={y} width="48" height="34" rx="8" fill="white" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.07))' }} />
+          <text x={x+24} y={y+14} textAnchor="middle" fontSize="9" fill="#94A3B8" fontFamily="DM Sans,sans-serif">{t}</text>
+          <text x={x+24} y={y+27} textAnchor="middle" fontSize="13" fontWeight="700" fill="#00C4B3" fontFamily="Plus Jakarta Sans,sans-serif">{v}</text>
         </g>
       ))}
-      <rect x="186" y="150" width="50" height="7" rx="3.5" fill="#BFDBFE" />
-      <rect x="186" y="162" width="80" height="7" rx="3.5" fill="#E5E7EB" />
     </svg>
   )
 }
 
-function SmartDashboardVector() {
+function MultiAccountIllustration() {
+  const accs = [{ label: 'Savings Account', val: '₹1,24,000', c: '#00C4B3' },{ label: 'Checking Account', val: '₹38,500', c: '#4A90D9' },{ label: 'Credit Card', val: '₹−12,000', c: '#EF4444' }]
   return (
-    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect x="10" y="14" width="260" height="172" rx="16" fill="#EEF4FF" />
-      <rect x="24" y="28" width="112" height="7" rx="3.5" fill="#BFDBFE" />
-      <rect x="24" y="40" width="76" height="12" rx="6" fill="#1D4ED8" />
-
-      <rect x="24" y="66" width="232" height="1" fill="#DBEAFE" />
-      <rect x="24" y="98" width="232" height="1" fill="#DBEAFE" />
-      <rect x="24" y="130" width="232" height="1" fill="#DBEAFE" />
-
-      {[52, 76, 101, 127, 152, 178].map((x, i) => (
-        <rect key={i} x={x} y={145 - (i % 2 ? 34 : 22)} width="14" height={i % 2 ? 34 : 22} rx="4" fill="#93C5FD" />
-      ))}
-      <polyline
-        points="28,120 70,108 102,114 140,92 178,86 214,72 252,78"
-        stroke="#10B981"
-        strokeWidth="3"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {[28, 70, 102, 140, 178, 214, 252].map((x, i) => {
-        const ys = [120, 108, 114, 92, 86, 72, 78]
-        return <circle key={i} cx={x} cy={ys[i]} r="3.5" fill="#fff" stroke="#10B981" strokeWidth="2" />
-      })}
-    </svg>
-  )
-}
-
-function AccountBalanceVector() {
-  return (
-    <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      <rect x="10" y="14" width="260" height="172" rx="16" fill="#EEF2FF" />
-      <rect x="24" y="28" width="90" height="7" rx="3.5" fill="#C7D2FE" />
-      <rect x="24" y="40" width="110" height="12" rx="6" fill="#3730A3" />
-
-      <rect x="24" y="66" width="232" height="94" rx="14" fill="white" stroke="#E5E7EB" />
-      <rect x="38" y="80" width="74" height="6" rx="3" fill="#E5E7EB" />
-      <rect x="38" y="92" width="120" height="14" rx="7" fill="#111827" />
-      <rect x="38" y="114" width="92" height="6" rx="3" fill="#10B981" />
-
-      <circle cx="214" cy="102" r="28" fill="#DBEAFE" />
-      <circle cx="214" cy="102" r="19" fill="none" stroke="#3B82F6" strokeWidth="8" />
-      <rect x="199" y="97" width="30" height="10" rx="5" fill="#1D4ED8" />
-
-      <rect x="24" y="168" width="146" height="8" rx="4" fill="#D1FAE5" />
-      <rect x="24" y="168" width="98" height="8" rx="4" fill="#10B981" />
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#EEF2FF" />
+      <rect x="28" y="28" width="110" height="7" rx="3.5" fill="#C7D2FE" />
+      <rect x="28" y="40" width="78" height="14" rx="5" fill="#3730A3" />
+      {accs.map(({ label, val, c }, i) => { const y = 80 + i * 40; return (<g key={i}><rect x="28" y={y} width="264" height="32" rx="10" fill="white" style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.06))' }} /><circle cx="50" cy={y+16} r="9" fill={c} opacity="0.2" /><circle cx="50" cy={y+16} r="5" fill={c} /><text x="66" y={y+13} fontSize="10" fill="#64748B" fontFamily="DM Sans,sans-serif">{label}</text><text x="66" y={y+24} fontSize="12" fontWeight="700" fill="#1E293B" fontFamily="Plus Jakarta Sans,sans-serif">{val}</text></g>) })}
     </svg>
   )
 }
@@ -474,71 +184,25 @@ function AccountBalanceVector() {
 
 function useScrollReveal() {
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const el = entry.target
-            const dir = el.dataset.reveal || 'up'
-            if (dir === 'left')  el.classList.add('revealed-left')
-            else if (dir === 'right') el.classList.add('revealed-right')
-            else if (dir === 'scale') el.classList.add('revealed-scale')
-            else el.classList.add('revealed')
-            observer.unobserve(el)
-          }
-        })
-      },
-      { threshold: 0.15 }
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add(styles.visible); obs.unobserve(e.target) }
+      }),
+      { threshold: 0.12 }
     )
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
-    return () => observer.disconnect()
+    document.querySelectorAll(`.${styles.sr}, .${styles.srLeft}, .${styles.srRight}`).forEach(el => obs.observe(el))
+    return () => obs.disconnect()
   }, [])
 }
 
 
 const features = [
-  {
-    // icon: MdDocumentScanner,
-    title: 'AI Receipt Scanner',
-    desc: 'Snap a photo — Gemini AI extracts merchant, amount, date and category instantly. No manual entry.',
-    // color: 'bg-blue-100 text-blue-600',
-    vector: ReceiptScanVector,
-  },
-  {
-    // icon: MdTrendingUp,
-    title: 'Smart Dashboard',
-    desc: 'Beautiful charts show exactly where your money goes. Track 6 months of income vs expenses.',
-    // color: 'bg-green-100 text-green-600',
-    vector: SmartDashboardVector,
-  },
-  {
-    // icon: MdTrackChanges,
-    title: 'Budget Management',
-    desc: 'Set monthly limits per category. Get email alerts at 80% and 100% before overspending.',
-    // color: 'bg-yellow-100 text-yellow-600',
-    vector: BudgetVector,
-  },
-  {
-    // icon: MdStar,
-    title: 'Savings Goals',
-    desc: 'Define what you\'re saving for. Track progress visually and celebrate each milestone.',
-    // color: 'bg-purple-100 text-purple-600',
-    vector: GoalsVector,
-  },
-  {
-    // icon: MdFavorite,
-    title: 'Financial Health Score',
-    desc: 'Get a 0–100 score based on savings rate, budget discipline, goal progress and net worth.',
-    // color: 'bg-red-100 text-red-600',
-    vector: HealthScoreVector,
-  },
-  {
-    // icon: MdAccountBalance,
-    title: 'Multi-Account',
-    desc: 'Manage savings, checking, credit cards and investments in one place with real-time balances.',
-    // color: 'bg-indigo-100 text-indigo-600',
-    vector: AccountBalanceVector,
-  },
+  { title: 'AI Receipt Scanner',      desc: 'Snap a photo — Our Service extracts merchant, amount, date and category instantly. No manual entry ever again.',            Illus: ReceiptScanIllustration,  bg: '#EFF6FF', accent: '#3B82F6', tag: 'AI-Powered' },
+  { title: 'Smart Dashboard',         desc: 'Beautiful charts show exactly where your money goes. Track 6 months of income vs expenses at a glance.',                  Illus: DashboardIllustration,    bg: '#F0F9FF', accent: '#00C4B3', tag: 'Analytics'  },
+  { title: 'Budget Management',       desc: 'Set monthly limits per category. Get email alerts at 80% and 100% before overspending happens.',                           Illus: BudgetIllustration,       bg: '#EFF6FF', accent: '#F59E0B', tag: 'Planning'   },
+  { title: 'Savings Goals',           desc: "Define what you're saving for. Track progress visually and celebrate each milestone you hit.",                             Illus: GoalsIllustration,        bg: '#F0FDF4', accent: '#10B981', tag: 'Goals'      },
+  { title: 'Financial Health Score',  desc: 'Get a 0–100 score based on savings rate, budget discipline, goal progress and net worth trends.',                         Illus: HealthScoreIllustration,  bg: '#FFF7ED', accent: '#F97316', tag: 'Insights'   },
+  { title: 'Multi-Account Tracking',  desc: 'Manage savings, checking, credit cards and investments in one place with real-time balances.',                            Illus: MultiAccountIllustration, bg: '#EEF2FF', accent: '#6366F1', tag: 'Unified'    },
 ]
 
 const comparisons = [
@@ -553,362 +217,260 @@ const comparisons = [
 ]
 
 const testimonials = [
-  {
-    name: 'Priya Sharma', role: 'Software Engineer, Bangalore', avatar: 'PS',
-    text: 'FinanceVU changed how I manage money. The AI receipt scanner saves me 30 minutes a week. The health score keeps me motivated to save more.',
-    rating: 5,
-  },
-  {
-    name: 'Rahul Mehta', role: 'MBA Student, Mumbai', avatar: 'RM',
-    text: 'The budget alerts stopped me from overspending three times last month. Finally a finance app that actually explains where my money goes.',
-    rating: 5,
-  },
-  {
-    name: 'Ananya Krishnan', role: 'Freelance Designer, Chennai', avatar: 'AK',
-    text: "As a freelancer with variable income, FinanceVU's multi-account tracking and monthly reports are invaluable.",
-    rating: 5,
-  },
+  { name: 'Priya Sharma',    role: 'Software Engineer, Bangalore', avatar: 'PS', text: 'FinanceVU changed how I manage money. The AI receipt scanner saves me 30 minutes a week. The health score keeps me motivated to save more.',               rating: 5 },
+  { name: 'Rahul Mehta',     role: 'MBA Student, Mumbai',          avatar: 'RM', text: 'The budget alerts stopped me from overspending three times last month. Finally a finance app that explains where my money actually goes.',                  rating: 5 },
+  { name: 'Ananya Krishnan', role: 'Freelance Designer, Chennai',  avatar: 'AK', text: "As a freelancer with variable income, FinanceVU's multi-account tracking and monthly reports are invaluable for staying on top of my finances.",         rating: 5 },
 ]
 
 const stats = [
-  { value: '50K+', label: 'Transactions Tracked' },
-  { value: '10K+', label: 'Active Users' },
+  { value: '50K+',  label: 'Transactions'  },
+  { value: '10K+',  label: 'Active Users'  },
   { value: '₹2Cr+', label: 'Money Managed' },
-  { value: '4.9★', label: 'User Rating' },
+  { value: '4.9★',  label: 'Rating'        },
 ]
-
 
 const processSteps = [
-  {
-    step: '01',
-    title: 'Create an account',
-    desc: 'Sign up and set your monthly baseline in less than a minute.',
-    meta: 'Setup',
-  },
-  {
-    step: '02',
-    title: 'Add your transactions',
-    desc: 'Import CSV or add entries manually to start tracking instantly.',
-    meta: 'Data',
-  },
-  {
-    step: '03',
-    title: 'Review insights',
-    desc: 'Use dashboard trends and budget alerts to improve monthly decisions.',
-    meta: 'Insights',
-  },
+  { step: '01', title: 'Create an account',     desc: 'Sign up and set your monthly baseline in less than a minute.',                   meta: 'Setup'    },
+  { step: '02', title: 'Add your transactions', desc: 'Import CSV or add entries manually to start tracking instantly.',                meta: 'Data'     },
+  { step: '03', title: 'Review insights',       desc: 'Use dashboard trends and budget alerts to improve your monthly decisions.',      meta: 'Insights' },
 ]
 
+
+function ContactForm() {
+  const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '' })
+  const [status, setStatus] = useState(null) 
+
+  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      setStatus('validation')
+      return
+    }
+    setStatus('sending')
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+    name:    form.name,
+    email:   form.email,
+    title:   form.subject || '(No subject)',
+    message: form.message,
+    time:    new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+  },
+        EMAILJS_PUBLIC_KEY
+      )
+      setStatus('success')
+      setForm({ name: '', email: '', subject: '', message: '' })
+      setTimeout(() => setStatus(null), 6000)
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate>
+      <div className={styles.formGrid2}>
+        <input className={styles.inputField} name="name"  placeholder="Your Name *"  value={form.name}    onChange={handleChange} autoComplete="name"  />
+        <input className={styles.inputField} name="email" placeholder="Your Email *" value={form.email}   onChange={handleChange} autoComplete="email" type="email" />
+      </div>
+      <div className={styles.formGroup}>
+        <input className={styles.inputField} name="subject" placeholder="Subject (optional)" value={form.subject} onChange={handleChange} />
+      </div>
+      <div className={styles.formGroup}>
+        <textarea className={styles.textareaField} name="message" placeholder="Your message *" rows={5} value={form.message} onChange={handleChange} />
+      </div>
+
+      {status === 'validation' && <p className={styles.formError}>Please fill in your name, email, and message.</p>}
+      {status === 'error'      && <p className={styles.formError}>Something went wrong. Please try again or email us directly.</p>}
+      {status === 'success'    && <p className={styles.formSuccess}>✓ Message sent! We'll get back to you within 24 hours.</p>}
+
+      <button type="submit" className={styles.formSubmitBtn} disabled={status === 'sending'}>
+        {status === 'sending' ? 'Sending…' : 'Send Message →'}
+      </button>
+    </form>
+  )
+}
 
 
 export default function LandingPage() {
   useScrollReveal()
-
   const [activeSection, setActiveSection] = useState('features')
 
   const navItems = [
-    { id: 'features', label: 'Features' },
-    { id: 'compare', label: 'Compare' },
-    { id: 'testimonials', label: 'Reviews' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'features',     label: 'Features'  },
+    { id: 'compare',      label: 'Compare'   },
+    { id: 'testimonials', label: 'Reviews'   },
+    { id: 'contact',      label: 'Contact'   },
   ]
 
-   const scrollToSection = (id) => {
+  const scrollTo = id => {
     const el = document.getElementById(id)
     if (!el) return
-    const navOffset = 88
-    const y = el.getBoundingClientRect().top + window.scrollY - navOffset
-    window.scrollTo({ top: y, behavior: 'smooth' })
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' })
     setActiveSection(id)
   }
 
-   useEffect(() => {
-    const sections = navItems
-      .map(({ id }) => document.getElementById(id))
-      .filter(Boolean)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
-
-        if (visible[0]?.target?.id) {
-          setActiveSection(visible[0].target.id)
-        }
+  useEffect(() => {
+    const sections = navItems.map(({ id }) => document.getElementById(id)).filter(Boolean)
+    const obs = new IntersectionObserver(
+      entries => {
+        const vis = entries.filter(e => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        if (vis[0]?.target?.id) setActiveSection(vis[0].target.id)
       },
-      {
-        threshold: [0.2, 0.4, 0.6],
-        rootMargin: '-20% 0px -55% 0px',
-      }
+      { threshold: [0.2, 0.5], rootMargin: '-20% 0px -55% 0px' }
     )
-
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+    sections.forEach(s => obs.observe(s))
+    return () => obs.disconnect()
   }, [])
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className={styles.root}>
 
-
-<nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-  <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-    <Link to="/" className="flex items-center">
-      <img
-        src={logo}
-        alt="FinanceVUE"
-        className="h-9 w-auto object-contain"
-      />
-    </Link>
-
-    <div className="hidden md:flex items-center gap-3 text-sm font-medium">
-      {navItems.map(({ id, label }) => {
-        const isActive = activeSection === id
-        return (
-          <button
-            key={id}
-            type="button"
-            onClick={() => scrollToSection(id)}
-            className={`px-3 py-1.5 rounded-md border-b-2 transition-all duration-300
-              ${isActive
-                ? 'bg-blue-50 text-blue-700 border-black'
-                : 'bg-transparent text-gray-500 border-transparent hover:text-blue-600 hover:bg-blue-50/70'
-              }`}
-          >
-            {label}
-          </button>
-        )
-      })}
-    </div>
-
-          <div className="flex items-center gap-3">
-            <Link to="/login"
-              className="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors hidden sm:block">
-              Sign In
-            </Link>
-            <Link to="/register"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors">
-              Get Started Free
-            </Link>
+      {/* ════════ NAV ════════ */}
+      <nav className={styles.nav}>
+        <div className={styles.navInner}>
+          <Link to="/" className={styles.navLogo}>
+            <img src={logo} alt="FinanceVUE" className={styles.navLogoImg} />
+          </Link>
+          <div className={styles.navLinks}>
+            {navItems.map(({ id, label }) => (
+              <button key={id} onClick={() => scrollTo(id)}
+                className={`${styles.navLink} ${activeSection === id ? styles.navLinkActive : ''}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className={styles.navActions}>
+            <Link to="/login"    className={styles.navSignIn}>Sign In</Link>
+            <Link to="/register" className={styles.btnTeal} style={{ padding: '9px 20px' }}>Get Started Free →</Link>
           </div>
         </div>
       </nav>
 
-      
-      <section className="pt-28 pb-0 px-6 bg-gradient-to-b from-blue-50/80 via-white to-white relative overflow-hidden">
+      {/* ════════ HERO ════════ */}
+      <section className={styles.hero}>
+        <div className={styles.heroDotGrid} />
+        <div className={styles.heroBlob1} />
+        <div className={styles.heroBlob2} />
 
-       
-        <div className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: 'radial-gradient(circle, #93C5FD 1px, transparent 1px)',
-            backgroundSize: '32px 32px'
-          }} />
-
-        
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-400/10 rounded-full blur-3xl" />
-
-        <div className="max-w-6xl mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-           
+        <div className={styles.heroInner}>
+          <div className={styles.heroGrid}>
             <div>
-              {/* <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 animate-fade-in">
-                <MdSpeed className="text-sm" />
-                AI-Powered Personal Finance
-              </div> */}
-              <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-[1.1] mb-6 animate-fade-up">
-                Master Your<br />
-                <span className="gradient-text">Money</span> with AI
+              <h1 className={`${styles.heroH1} ${styles.fadeUp2}`}>
+                Master Your<br /><span className={styles.accentTeal}>Money</span> with AI
               </h1>
-              <p className="text-gray-500 text-lg leading-relaxed mb-8 animate-fade-up delay-200">
-                Track expenses, scan receipts with AI, set smart budgets
-                and achieve savings goals — all in one clean interface.
+              <p className={`${styles.heroSubtitle} ${styles.fadeUp3}`}>
+                Track expenses, scan receipts with AI, set smart budgets and achieve savings goals — all in one clean interface.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 animate-fade-up delay-300">
-                <Link to="/register"
-                  className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-7 py-3.5 rounded-2xl text-sm transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-200">
-                  Start for Free
-                  <MdArrowForward className="text-base" />
+              <div className={`${styles.heroBtns} ${styles.fadeUp3}`}>
+                <Link to="/register" className={styles.btnTeal} style={{ padding: '13px 28px', fontSize: '0.9rem' }}>
+                  Start for Free <MdArrowForward />
                 </Link>
-                <a href="#features"
-                  className="inline-flex items-center justify-center gap-2 border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold px-7 py-3.5 rounded-2xl text-sm transition-colors">
+                <a href="#features" className={styles.btnGhost} style={{ padding: '13px 28px', fontSize: '0.9rem' }}>
                   See Features
                 </a>
               </div>
-              <p className="text-xs text-gray-400 mt-4 animate-fade-up delay-400">
-                No credit card required · Free forever
-              </p>
-
-              
-              <div className="flex items-center gap-6 mt-8 animate-fade-up delay-500">
+              <p className={`${styles.heroNote} ${styles.fadeUp3}`}>No credit card required · Free forever</p>
+              <div className={`${styles.statsRow} ${styles.fadeUp4}`}>
                 {stats.map(({ value, label }) => (
-                  <div key={label} className="text-center">
-                    <p className="text-xl font-bold text-blue-600">{value}</p>
-                    <p className="text-xs text-gray-400">{label}</p>
+                  <div key={label} className={styles.statItem}>
+                    <span className={styles.statVal}>{value}</span>
+                    <span className={styles.statLabel}>{label}</span>
                   </div>
                 ))}
               </div>
             </div>
-
-            
-            <div className="relative h-[420px] animate-fade-in delay-300">
-              <HeroDashboardVector />
-            </div>
+            <div className={styles.heroIllus}><HeroIllustration /></div>
           </div>
         </div>
 
-        
-        <div className="mt-16">
-          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 30 C240 60 480 0 720 30 C960 60 1200 0 1440 30 L1440 60 L0 60 Z"
-              fill="white" />
-          </svg>
+        <svg viewBox="0 0 1440 72" fill="none" className={styles.heroWave} style={{ display: 'block', marginBottom: '-2px' }}>
+  <path d="M0 0 C360 72 1080 72 1440 0 L1440 72 L0 72 Z" fill="#fff" />
+</svg>
+      </section>
+
+      {/* ════════ FEATURES ════════ */}
+      <section id="features" className={styles.featuresSection}>
+        <div className={styles.featuresInner}>
+          <div className={`${styles.featuresHeader} ${styles.sr}`}>
+            <span className={styles.labelTeal}>Everything you need</span>
+            <h2 className={styles.sectionH2}>
+              Built for how you actually<br /><span className={styles.accentTeal}>think about money</span>
+            </h2>
+            <p className={styles.featuresSubtitle}>Every feature reduces friction and gives you total clarity.</p>
+          </div>
+
+          {features.map(({ title, desc, Illus, bg, accent, tag }, i) => (
+            <div key={title}
+              className={`${styles.featRow} ${i % 2 === 1 ? styles.featRowReverse : ''} ${styles.sr}`}
+              style={{ animationDelay: `${i * 0.07}s` }}>
+              <div className={styles.featText}>
+                <span className={styles.featTag} style={{ background: `${accent}18`, color: accent }}>{tag}</span>
+                <h3 className={styles.featH3}>{title}</h3>
+                <p className={styles.featDesc}>{desc}</p>
+                <Link to="/register" className={styles.featCta} style={{ color: accent, borderBottomColor: accent }}>
+                  Get started <span className={styles.featCtaArrow}>→</span>
+                </Link>
+              </div>
+              <div className={styles.featIllus} style={{ background: bg }}><Illus /></div>
+            </div>
+          ))}
         </div>
       </section>
 
-      
-      <section id="features" className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-
-          <div className="text-center mb-16 reveal">
-            <p className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Everything you need
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Built for how you actually<br />
-              <span className="gradient-text">think about money</span>
-            </h2>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              Every feature is designed to reduce friction and give you clarity.
-            </p>
+      <section className={styles.stepsSection}>
+        <div className={styles.stepsDotGrid} />
+        <div className={styles.stepsInner}>
+          <div className={`${styles.stepsHeader} ${styles.sr}`}>
+            <span className={styles.labelTeal}>Simple process</span>
+            <h2 className={styles.sectionH2}>Up and running in <span className={styles.accentTeal}>3 minutes</span></h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map(({  title, desc, vector: Vec }, i) => (
-              <div key={title}
-                data-reveal="up"
-                className={`reveal group bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default`}
-                style={{ animationDelay: `${i * 0.1}s` }}>
-
-              
-                {/* <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${color} group-hover:scale-110 transition-transform`}>
-                  <Icon className="text-2xl" />
-                </div> */}
-
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-4">{desc}</p>
-
-                
-                {Vec && (
-                  <div className="mt-4 h-28 opacity-80 group-hover:opacity-100 transition-opacity">
-                    <Vec />
+          <div className={styles.stepsGrid}>
+            {processSteps.map(({ step, title, desc, meta }, i) => (
+              <div key={step} className={styles.sr} style={{ animationDelay: `${i * 0.12}s` }}>
+                <div className={styles.stepNum}>{step}</div>
+                <div className={styles.stepCard}>
+                  <div className={styles.stepMeta}>
+                    {/* <span className={styles.stepBadge}>{step}</span> */}
+                    <span className={styles.stepTag}>{meta}</span>
                   </div>
-                )}
+                  <h3 className={styles.stepH3}>{title}</h3>
+                  <p className={styles.stepDesc}>{desc}</p>
+                  <div className={styles.stepBar}>
+                    <div className={styles.stepBarFill} style={{ width: `${(i + 1) * 33.33}%` }} />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      
-      <section className="py-24 px-6 bg-gray-50 relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute left-0 bottom-0 w-80 h-80 bg-indigo-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-        <div className="max-w-5xl mx-auto relative">
-          <div className="text-center mb-14 reveal">
-            <p className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Simple process
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Up and running in <span className="gradient-text">3 minutes</span>
-            </h2>
+      {/* ════════ COMPARISON ════════ */}
+      <section id="compare" className={styles.compareSection}>
+        <div className={styles.compareInner}>
+          <div className={`${styles.compareHeader} ${styles.sr}`}>
+            <span className={styles.labelTeal}>Comparison</span>
+            <h2 className={styles.sectionH2}>Why <span className={styles.accentTeal}>FinanceVUE</span> stands out</h2>
+            <p className={styles.compareSubtitle}>We built what other apps were missing.</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {processSteps.map(({ step, title, desc, meta }, i) => (
-    <article
-      key={step}
-      data-reveal="up"
-      className="reveal relative rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition-all duration-300"
-      style={{ animationDelay: `${i * 0.12}s` }}
-    >
-      <div className="flex items-center justify-between mb-5">
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue-50 text-blue-700 text-sm font-bold">
-          {step}
-        </span>
-        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
-          {meta}
-        </span>
-      </div>
-
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-      <p className="text-sm leading-6 text-gray-600">{desc}</p>
-
-      <div className="mt-6 h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
-        <div
-          className="h-full rounded-full bg-blue-600"
-          style={{ width: `${(i + 1) * 33.33}%` }}
-        />
-      </div>
-    </article>
-  ))}
-</div>
-
-          
-          <div className="hidden md:block mt-6">
-  <div className="grid grid-cols-3 gap-6 px-6">
-    <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
-    <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
-    <div />
-  </div>
-  </div>
-</div>
-      </section>
-
-      
-      <section id="compare" className="py-24 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14 reveal">
-            <p className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Comparison
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why <span className="gradient-text">FinanceVUE</span> stands out
-            </h2>
-            <p className="text-gray-500 text-lg">
-              We built what other apps were missing.
-            </p>
-          </div>
-
-          <div className="reveal rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
-            <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-200">
-              <div className="px-6 py-4 text-sm font-semibold text-gray-500">Feature</div>
-              <div className="px-6 py-4 text-sm font-bold text-blue-600 text-center bg-blue-50 border-x border-gray-200">
-                FinanceVUE ✦
-              </div>
-              <div className="px-6 py-4 text-sm font-semibold text-gray-400 text-center">Others</div>
+          <div className={`${styles.compareTable} ${styles.sr}`}>
+            <div className={styles.cmpHead}>
+              <div className={styles.cmpHeadCell}>Feature</div>
+              <div className={styles.cmpHeadCellUs}>FinanceVUE ✦</div>
+              <div className={styles.cmpHeadCellOthers}>Others</div>
             </div>
-            {comparisons.map(({ feature, us, others }, i) => (
-              <div key={feature}
-                className={`grid grid-cols-3 border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition-colors
-                  ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}>
-                <div className="px-6 py-4 text-sm text-gray-700 font-medium">{feature}</div>
-                <div className="px-6 py-4 flex justify-center bg-blue-50/40 border-x border-gray-100">
-                  {us
-                    ? <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                        <MdCheck className="text-green-600 text-sm" />
-                      </div>
-                    : <span className="text-gray-300 text-lg">–</span>
-                  }
+            {comparisons.map(({ feature, us, others }) => (
+              <div key={feature} className={styles.cmpRow}>
+                <div className={styles.cmpCell}>{feature}</div>
+                <div className={styles.cmpCellUs}>
+                  {us ? <span className={styles.cmpCheck}>✓</span> : <span className={styles.cmpDash}>–</span>}
                 </div>
-                <div className="px-6 py-4 flex justify-center">
-                  {others
-                    ? <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                        <MdCheck className="text-green-600 text-sm" />
-                      </div>
-                    : <span className="text-gray-300 text-lg">–</span>
-                  }
+                <div className={styles.cmpCellOthers}>
+                  {others ? <span className={styles.cmpCheck}>✓</span> : <span className={styles.cmpDash}>–</span>}
                 </div>
               </div>
             ))}
@@ -916,36 +478,25 @@ export default function LandingPage() {
         </div>
       </section>
 
-    
-      <section id="testimonials" className="py-24 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14 reveal">
-            <p className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Real users
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Loved by thousands of <span className="gradient-text">Indians</span>
-            </h2>
+      {/* ════════ TESTIMONIALS ════════ */}
+      <section id="testimonials" className={styles.testiSection}>
+        <div className={styles.testiInner}>
+          <div className={`${styles.testiHeader} ${styles.sr}`}>
+            <span className={styles.labelTeal}>Real users</span>
+            <h2 className={styles.sectionH2}>Loved by thousands of <span className={styles.accentTeal}>Indians</span></h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className={styles.testiGrid}>
             {testimonials.map(({ name, role, avatar, text, rating }, i) => (
-              <div key={name} data-reveal="up"
-                className="reveal bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                style={{ animationDelay: `${i * 0.15}s` }}>
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(rating)].map((_, j) => (
-                    <MdStar key={j} className="text-yellow-400 text-lg" />
-                  ))}
+              <div key={name} className={`${styles.testiCard} ${styles.sr}`} style={{ animationDelay: `${i * 0.14}s` }}>
+                <div className={styles.testiStars}>
+                  {[...Array(rating)].map((_, j) => <span key={j} className={styles.testiStar}>★</span>)}
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">"{text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                    {avatar}
-                  </div>
+                <p className={styles.testiText}>"{text}"</p>
+                <div className={styles.testiAuthor}>
+                  <div className={styles.testiAvatar}>{avatar}</div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-sm">{name}</p>
-                    <p className="text-xs text-gray-400">{role}</p>
+                    <p className={styles.testiName}>{name}</p>
+                    <p className={styles.testiRole}>{role}</p>
                   </div>
                 </div>
               </div>
@@ -954,153 +505,86 @@ export default function LandingPage() {
         </div>
       </section>
 
-      
-      <section id="about" className="py-24 px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '28px 28px'
-          }} />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2" />
 
-        <div className="max-w-5xl mx-auto relative">
-          <div className="text-center mb-14 reveal">
-            <h2 className="text-4xl font-bold text-white mb-4">About FinanceVUE</h2>
-            <p className="text-blue-100 text-lg leading-relaxed max-w-2xl mx-auto">
-              Built by developers who were frustrated with complicated, expensive finance apps.
-              We believe everyone deserves simple, powerful tools to understand their money.
-            </p>
+      {/* ════════ CONTACT ════════ */}
+      <section id="contact" className={styles.contactSection}>
+        <div className={styles.contactInner}>
+          <div className={`${styles.contactHeader} ${styles.sr}`}>
+            <span className={styles.labelTeal}>Get in touch</span>
+            <h2 className={styles.sectionH2}>Contact <span className={styles.accentTeal}>Us</span></h2>
+            <p className={styles.contactSubtitle}>Have questions or feedback? We'd love to hear from you.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { icon: MdSecurity,   title: 'Bank-Level Security',  desc: 'Your data is encrypted end-to-end and never sold or shared.' },
-              { icon: MdSmartphone, title: 'Works Everywhere',     desc: 'Any device, any screen size — desktop, tablet or mobile browser.' },
-              { icon: MdSpeed,      title: 'Lightning Fast',       desc: 'Built on Spring Boot + React for instant responses every time.' },
-            ].map(({ icon: Icon, title, desc }, i) => (
-              <div key={title} data-reveal="scale"
-                className="reveal glass rounded-2xl p-6 text-center hover:bg-white/15 transition-colors"
-                style={{ animationDelay: `${i * 0.15}s` }}>
-                <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="text-white text-2xl" />
-                </div>
-                <h3 className="font-bold text-white mb-2">{title}</h3>
-                <p className="text-blue-100 text-sm">{desc}</p>
-              </div>
-            ))}
+          {/* Clean info strip — no icons */}
+          <div className={`${styles.contactInfoStrip} ${styles.sr}`}>
+            <div className={styles.contactInfoItem}>
+              <span className={styles.contactInfoType}>Email us</span>
+              <a href="mailto:support@financevue.in" className={styles.contactInfoValue}>support@financevue.in</a>
+              <span className={styles.contactInfoNote}>Replies within 24 hours</span>
+            </div>
+            <div className={styles.contactInfoItem}>
+              <span className={styles.contactInfoType}>Call us</span>
+              <a href="tel:+919876543210" className={styles.contactInfoValue}>+91 98765 43210</a>
+              <span className={styles.contactInfoNote}>Mon – Fri, 10 am – 6 pm IST</span>
+            </div>
+            <div className={styles.contactInfoItem}>
+              <span className={styles.contactInfoType}>Find us</span>
+              <span className={styles.contactInfoValue}>Chandigarh, India</span>
+              <span className={styles.contactInfoNote}>Punjab · 160017</span>
+            </div>
+          </div>
+
+          <div className={`${styles.contactFormBox} ${styles.sr}`}>
+            <h3 className={styles.contactFormTitle}>Send us a message</h3>
+            <ContactForm />
           </div>
         </div>
       </section>
 
-  
-
-      
-      <section id="contact" className="py-24 px-6 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14 reveal">
-            <p className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-3">
-              Get in touch
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Contact <span className="gradient-text">Us</span>
-            </h2>
-            <p className="text-gray-500 text-lg">Have questions? We'd love to hear from you.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-            {[
-              { icon: MdEmail,      title: 'Email',    value: 'support@FinanceVUE.in', color: 'bg-blue-100 text-blue-600' },
-              { icon: MdPhone,      title: 'Phone',    value: '+91 98765 43210',         color: 'bg-green-100 text-green-600' },
-              { icon: MdLocationOn, title: 'Location', value: 'Chandigarh, India',       color: 'bg-purple-100 text-purple-600' },
-            ].map(({ icon: Icon, title, value, color }, i) => (
-              <div key={title} data-reveal="up"
-                className="reveal bg-white rounded-2xl border border-gray-200 p-6 text-center hover:shadow-md transition-all"
-                style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${color}`}>
-                  <Icon className="text-2xl" />
-                </div>
-                <p className="font-semibold text-gray-900 mb-1">{title}</p>
-                <p className="text-gray-500 text-sm">{value}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="reveal bg-white rounded-2xl border border-gray-200 p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <input type="text" placeholder="Your Name"
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50/50 transition-all" />
-              <input type="email" placeholder="Your Email"
-                className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50/50 transition-all" />
-            </div>
-            <input type="text" placeholder="Subject"
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50/50 transition-all mb-4" />
-            <textarea rows={4} placeholder="Your message..."
-              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50/50 transition-all mb-4 resize-none" />
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2">
-              <MdEmail className="text-base" />
-              Send Message
-            </button>
-          </div>
-        </div>
-      </section>
-
-      
-      <footer className="bg-gray-900 text-white py-14 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      {/* ════════ FOOTER ════════ */}
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <div className={styles.footerGrid}>
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <MdAccountBalance className="text-white text-lg" />
-                </div>
-                <span className="font-bold text-lg">FinanceVU</span>
+              <div className={styles.footerBrand}>
+                <div className={styles.footerLogoBox}><img src="/src/assets/Logo.svg" alt="FinanceVU Logo" /></div>
+           
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                AI-powered personal finance for modern India.
-              </p>
-              <div className="flex gap-2">
-                {[FaTwitter, FaGithub, FaLinkedin].map((Icon, i) => (
-                  <a key={i} href="#"
-                    className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                    <Icon className="text-sm" />
-                  </a>
+              <p className={styles.footerTagline}>AI-powered personal finance for modern India.</p>
+              <div className={styles.footerSocials}>
+                {[{ Icon: FaTwitter, href: '#' },{ Icon: FaGithub, href: '#' },{ Icon: FaLinkedin, href: '#' }].map(({ Icon, href }, i) => (
+                  <a key={i} href={href} className={styles.footerSocial}><Icon /></a>
                 ))}
               </div>
             </div>
             <div>
-              <p className="font-semibold mb-4 text-gray-100">Product</p>
-              <div className="space-y-2.5 text-sm text-gray-400">
-                {['Features','Compare','Reviews','Get Started'].map(item => (
-                  <a key={item} href="#" className="block hover:text-white transition-colors">{item}</a>
-                ))}
-              </div>
+              <p className={styles.footerColTitle}>Product</p>
+              {['Features', 'Compare', 'Reviews', 'Get Started'].map(item => (
+                <a key={item} href="#" className={styles.footerLink}>{item}</a>
+              ))}
             </div>
             <div>
-              <p className="font-semibold mb-4 text-gray-100">Company</p>
-              <div className="space-y-2.5 text-sm text-gray-400">
-                {['About Us','Contact','Privacy Policy','Terms of Service'].map(item => (
-                  <a key={item} href="#" className="block hover:text-white transition-colors">{item}</a>
-                ))}
-              </div>
+              <p className={styles.footerColTitle}>Company</p>
+              {['About Us', 'Contact', 'Privacy Policy', 'Terms of Service'].map(item => (
+                <a key={item} href="#" className={styles.footerLink}>{item}</a>
+              ))}
             </div>
             <div>
-              <p className="font-semibold mb-4 text-gray-100">Stay Updated</p>
-              <p className="text-gray-400 text-sm mb-3">Get financial tips and updates.</p>
-              <div className="flex gap-2">
-                <input type="email" placeholder="your@email.com"
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500" />
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm transition-colors">
-                  →
-                </button>
+              <p className={styles.footerColTitle}>Stay Updated</p>
+              <p className={styles.footerNewsletterDesc}>Get financial tips and product updates in your inbox.</p>
+              <div className={styles.footerNewsletterRow}>
+                <input type="email" placeholder="your@email.com" className={styles.footerNewsletterInput} />
+                <button className={styles.footerNewsletterBtn}>→</button>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">© 2026 FinanceVU. All rights reserved.</p>
-            <p className="text-gray-500 text-sm">Made with Love in India</p>
+          <div className={styles.footerBottom}>
+            <p className={styles.footerBottomText}>© 2026 FinanceVU. All rights reserved.</p>
+            <p className={styles.footerBottomText}>Made with Love in India</p>
           </div>
         </div>
       </footer>
+
     </div>
   )
 }

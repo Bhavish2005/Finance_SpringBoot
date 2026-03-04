@@ -137,13 +137,6 @@ public class DashboardController {
 
         return ResponseEntity.ok(trend);
     }
-    // Add to imports
-
-
-    // Add to constructor injection
-
-
-    // Add endpoint
     @PostMapping("/send-report")
     public ResponseEntity<Map<String, String>> sendReport(
             @AuthenticationPrincipal User user,
