@@ -227,7 +227,7 @@ export default function DashboardPage() {
             <ResponsiveContainer width="100%" height={220}>
               <PieChart>
                 <Pie data={categoryData} dataKey="amount"
-                  nameKey="category" cx="50%" cy="50%" outerRadius={80}
+                  nameKey="category" cx="50%" cy="50%" innerRadius={50} outerRadius={80}
                   label={({ category, percent }) =>
                     `${category} ${(percent * 100).toFixed(0)}%`}
                   labelLine={false}>
