@@ -9,6 +9,8 @@ import {
   MdMenu, MdChevronLeft, MdDarkMode, MdLightMode,
   MdChevronRight
 } from 'react-icons/md'
+import AiChatWidget from '../ui/AiChatWidget';
+import SubscriptionAlertWidget from '../ui/SubscriptionAlertWidget';
 
 const navItems = [
   { to: '/dashboard',    label: 'Dashboard',    icon: MdDashboard },
@@ -222,6 +224,8 @@ export default function Layout() {
         </header>
 
         <main className={`flex-1 overflow-y-auto overflow-x-hidden p-5 lg:p-6 ${dark ? 'bg-[#0A0A0A]' : 'bg-[#F5F5F5]'}`}>
+          <AiChatWidget />
+          <SubscriptionAlertWidget />
           <Outlet />
         </main>
       </div>

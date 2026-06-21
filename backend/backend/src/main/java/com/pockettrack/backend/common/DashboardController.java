@@ -10,7 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
+import com.pockettrack.backend.dashboard.PredictiveEngineService;
+import com.pockettrack.backend.dashboard.SubscriptionSentinelService;
+import com.pockettrack.backend.dashboard.AnomalyAlert;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -23,6 +25,8 @@ public class DashboardController {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
     private final MonthlyReportService monthlyReportService;
+    private final PredictiveEngineService predictiveEngineService;
+    private final SubscriptionSentinelService subscriptionSentinelService;
 
     @GetMapping("/summary")
     public ResponseEntity<Map<String, Object>> getSummary(
@@ -146,5 +150,17 @@ public class DashboardController {
         return ResponseEntity.ok(Map.of(
                 "message", "Monthly report sent to " + user.getEmail()
         ));
+    }
+    @GetMapping("/safe-to-spend")
+    public ResponseEntity<Map<String, Object>> getSafeToSpend(
+            @AuthenticationPrincipal User user) {
+
+        Map<String, Object> safeToSpendData = predictiveEngineService.calculateSafeToSpend(user);
+        return ResponseEntity.ok(safeToSpendData);
+    }
+    @GetMapping("/anomalies")
+    public ResponseEntity<List<AnomalyAlert>> getSubscriptionAnomalies(@AuthenticationPrincipal User user) {
+        List<AnomalyAlert> alerts = subscriptionSentinelService.detectStealthIncreases(user);
+        return ResponseEntity.ok(alerts);
     }
 }
