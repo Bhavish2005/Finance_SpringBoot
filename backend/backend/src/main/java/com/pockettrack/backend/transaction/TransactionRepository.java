@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -124,4 +125,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     Page<Transaction> findByAccountIdAndTypeAndCategoryAndDateBetween(
             UUID accountId, Transaction.TransactionType type, String category,
             LocalDate from, LocalDate to, Pageable pageable);
+// Fetch transactions for a specific account, securely filtered by the user
+    List<Transaction> findByUserIdAndAccountIdOrderByDateDesc(UUID userId, UUID accountId);
+    List<Transaction> findByIsRecurringTrue();
+    boolean existsByUserIdAndDescriptionAndDateBetween(UUID userId, String description, LocalDate startDate, LocalDate endDate);
+    // Calculate total spent in a category for a specific month
+    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t WHERE t.user.id = :userId AND t.category = :category AND t.type = 'EXPENSE' AND EXTRACT(MONTH FROM t.date) = :month AND EXTRACT(YEAR FROM t.date) = :year")
+    BigDecimal sumCategoryExpensesForUserAndMonth(@Param("userId") UUID userId, @Param("category") String category, @Param("month") int month, @Param("year") int year);
 }

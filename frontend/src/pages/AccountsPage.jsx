@@ -8,6 +8,7 @@ import {
   MdTrendingUp, MdMoney, MdWallet, MdAdd,
   MdEdit, MdDelete, MdClose, MdCheck
 } from 'react-icons/md'
+import { Link } from 'react-router-dom';
 
 const ACCOUNT_TYPES = ['CHECKING','SAVINGS','CREDIT_CARD','INVESTMENT','CASH','OTHER']
 
@@ -91,7 +92,7 @@ export default function AccountsPage() {
   )
 
   return (
-    <div>
+    <div >
 {/* Header */}
 <div className="flex items-center justify-between mb-6">
   <div className="flex items-center gap-3">
@@ -130,7 +131,12 @@ export default function AccountsPage() {
           const cfg = TYPE_CONFIG[account.type] || TYPE_CONFIG.OTHER
           const Icon = cfg.icon
           return (
-            <div key={account.id} className={`${card(dark)} p-5 hover:shadow-md transition-shadow`}>
+            // 1. Changed this <div> into a <Link>
+            <Link 
+              to={`/accounts/${account.id}`} 
+              key={account.id} 
+              className={`block ${card(dark)} p-5 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer`}
+            >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${cfg.color}`}>
@@ -141,21 +147,23 @@ export default function AccountsPage() {
                     <p className={`text-xs capitalize ${subtext(dark)}`}>
                       {account.type.replace('_', ' ')}
                      {account.isDefault && (
-    <span className={`ml-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded
-        ${dark ? 'bg-[#1A1A1A] text-[#555] border border-[#2A2A2A]'
-               : 'bg-[#F0F0F0] text-[#888] border border-[#E0E0E0]'}`}>
-        Default
-    </span>
-)}
+                        <span className={`ml-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded
+                            ${dark ? 'bg-[#1A1A1A] text-[#555] border border-[#2A2A2A]'
+                                   : 'bg-[#F0F0F0] text-[#888] border border-[#E0E0E0]'}`}>
+                            Default
+                        </span>
+                    )}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-1">
-                  <button onClick={() => openEdit(account)}
+                  {/* 2. Added e.preventDefault() to stop the Link from triggering when clicking Edit */}
+                  <button onClick={(e) => { e.preventDefault(); openEdit(account); }}
                     className={`p-1.5 rounded-lg transition-colors ${dark ? 'text-gray-500 hover:text-blue-400 hover:bg-gray-800' : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'}`}>
                     <MdEdit className="text-base" />
                   </button>
-                  <button onClick={() => handleDelete(account)}
+                  {/* 3. Added e.preventDefault() to stop the Link from triggering when clicking Delete */}
+                  <button onClick={(e) => { e.preventDefault(); handleDelete(account); }}
                     className={`p-1.5 rounded-lg transition-colors ${dark ? 'text-gray-500 hover:text-red-400 hover:bg-gray-800' : 'text-gray-400 hover:text-red-600 hover:bg-red-50'}`}>
                     <MdDelete className="text-base" />
                   </button>
@@ -167,7 +175,7 @@ export default function AccountsPage() {
                   ₹{Number(account.balance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </p>
               </div>
-            </div>
+            </Link>
           )
         })}
       </div>

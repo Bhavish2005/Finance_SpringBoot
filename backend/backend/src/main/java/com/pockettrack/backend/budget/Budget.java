@@ -46,6 +46,10 @@ public class Budget {
 
     @Column(name = "alert_month")
     private Integer alertMonth;
+    
+    @Column(name = "is_rolled_over")
+    @Builder.Default
+    private boolean isRolledOver = false;
 
     @PrePersist
     protected void onCreate() {

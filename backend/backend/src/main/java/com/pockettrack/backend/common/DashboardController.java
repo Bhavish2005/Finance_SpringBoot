@@ -163,4 +163,10 @@ public class DashboardController {
         List<AnomalyAlert> alerts = subscriptionSentinelService.detectStealthIncreases(user);
         return ResponseEntity.ok(alerts);
     }
+    // Add this to your DashboardController.java
+    @PutMapping("/anomalies/mark-read")
+    public ResponseEntity<Void> markAnomaliesAsRead(@AuthenticationPrincipal User user) {
+        subscriptionSentinelService.markAllAsRead(user);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -13,4 +13,5 @@ public class AnomalyAlert {
     private double percentageChange;
     private String dateDetected;
     private String type;
+    private boolean isRead;
 }

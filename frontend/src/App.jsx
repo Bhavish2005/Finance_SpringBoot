@@ -14,6 +14,7 @@ import Layout           from './components/layout/Layout'
 import RecurringPage from './pages/RecurringPage'
 import HealthScorePage from './pages/HealthScorePage'
 import ImportTransactionsPage from './pages/ImportTransactionsPage'
+import AccountAnalyticsPage from './pages/AccountAnanlyticsPage';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
@@ -78,6 +79,7 @@ export default function App() {
 <Route path="/import" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
   <Route index element={<ImportTransactionsPage />} />
 </Route>
+<Route path="accounts/:id" element={<AccountAnalyticsPage />} />
 
     </Routes>
   )

@@ -18,6 +18,7 @@ import java.util.UUID;
 public class BudgetController {
 
     private final BudgetService budgetService;
+    private final BudgetBadgeRepository budgetBadgeRepository;
 
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getBudgets(
@@ -54,4 +55,8 @@ public class BudgetController {
         budgetService.deleteBudget(user, id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/badges")
+public ResponseEntity<List<BudgetBadge>> getUserBadges(@AuthenticationPrincipal User user) {
+    return ResponseEntity.ok(budgetBadgeRepository.findByUserIdOrderByEarnedDateDesc(user.getId()));
+}
 }
