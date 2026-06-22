@@ -15,7 +15,8 @@ import RecurringPage from './pages/RecurringPage'
 import HealthScorePage from './pages/HealthScorePage'
 import ImportTransactionsPage from './pages/ImportTransactionsPage'
 import AccountAnalyticsPage from './pages/AccountAnanlyticsPage';
-
+import EventSettlementPage from './pages/EventSettlementPage';
+import EventsDashboardPage from './pages/EventsDashboardPage'
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
   if (loading) return (
@@ -79,6 +80,8 @@ export default function App() {
 <Route path="/import" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
   <Route index element={<ImportTransactionsPage />} />
 </Route>
+<Route path="/events/:eventId/settle" element={<EventSettlementPage />} />
+<Route path="/events" element={<EventsDashboardPage />} />
 <Route path="accounts/:id" element={<AccountAnalyticsPage />} />
 
     </Routes>

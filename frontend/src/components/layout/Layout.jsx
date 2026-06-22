@@ -7,10 +7,12 @@ import {
   MdRepeat, MdTrackChanges, MdStar, MdFavorite,
   MdDocumentScanner, MdUpload, MdLogout,
   MdMenu, MdChevronLeft, MdDarkMode, MdLightMode,
-  MdChevronRight
+  MdChevronRight,
+  MdGroup
 } from 'react-icons/md'
 import AiChatWidget from '../ui/AiChatWidget';
 import SubscriptionAlertWidget from '../ui/SubscriptionAlertWidget';
+import { useWebSocket } from '../../hooks/useWebSocket';
 
 const navItems = [
   { to: '/dashboard',    label: 'Dashboard',    icon: MdDashboard },
@@ -22,6 +24,7 @@ const navItems = [
   { to: '/health-score', label: 'Health Score', icon: MdFavorite },
   { to: '/import',       label: 'Import',       icon: MdUpload },
   { to: '/scan-receipt', label: 'Scan Receipt', icon: MdDocumentScanner },
+  { to: '/events',       label: 'Trips & Splits', icon: MdGroup },
 ]
 
 export default function Layout() {
@@ -36,7 +39,7 @@ export default function Layout() {
   const sb = dark
     ? { bg: 'bg-[#0D0D0D]', border: 'border-[#1C1C1C]', hover: 'hover:bg-[#181818]', muted: 'text-[#3A3A3A]', label: 'text-[#555]', active: 'bg-[#1E1E1E] text-white', inactive: 'text-[#555] hover:text-[#CCC] hover:bg-[#181818]' }
     : { bg: 'bg-white',     border: 'border-[#EBEBEB]', hover: 'hover:bg-[#F5F5F5]', muted: 'text-[#D0D0D0]', label: 'text-[#AAA]', active: 'bg-[#111] text-white',       inactive: 'text-[#999] hover:text-[#111] hover:bg-[#F2F2F2]' }
-
+  useWebSocket();
   return (
     <div className={`flex h-screen overflow-hidden ${dark ? 'bg-[#0A0A0A]' : 'bg-[#F5F5F5]'}`}>
 
