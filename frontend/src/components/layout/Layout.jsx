@@ -8,7 +8,8 @@ import {
   MdDocumentScanner, MdUpload, MdLogout,
   MdMenu, MdChevronLeft, MdDarkMode, MdLightMode,
   MdChevronRight,
-  MdGroup
+  MdGroup,
+  MdOutlineShield
 } from 'react-icons/md'
 import AiChatWidget from '../ui/AiChatWidget';
 import SubscriptionAlertWidget from '../ui/SubscriptionAlertWidget';
@@ -25,6 +26,7 @@ const navItems = [
   { to: '/import',       label: 'Import',       icon: MdUpload },
   { to: '/scan-receipt', label: 'Scan Receipt', icon: MdDocumentScanner },
   { to: '/events',       label: 'Trips & Splits', icon: MdGroup },
+  { to: '/sentinel',     label: 'Savings Hub',    icon: MdOutlineShield },
 ]
 
 export default function Layout() {

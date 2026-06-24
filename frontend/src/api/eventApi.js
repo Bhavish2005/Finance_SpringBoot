@@ -6,8 +6,14 @@ export const eventApi = {
   addExpense: (eventId, data) => api.post(`/events/${eventId}/expenses`, data), // New
   getDebts: (eventId) => api.get(`/events/${eventId}/debts`),
   getPendingSettlements: (eventId) => api.get(`/events/${eventId}/settlements/pending`),
-  initiatePayment: (eventId, payeeId, amount) => 
-    api.post(`/events/${eventId}/settle`, null, { params: { payeeId, amount } }),
+ // ---> UPDATED: Secure Account Parameter added <---
+  initiatePayment: (eventId, payeeId, amount, payerAccountId) => 
+    api.post(`/events/${eventId}/settle`, null, { params: { payeeId, amount, payerAccountId } }),
   confirmPayment: (settlementId) => 
-    api.put(`/events/settlements/${settlementId}/confirm`)
+    api.put(`/events/settlements/${settlementId}/confirm`),
+  inviteFriend: (eventId, email) => api.post(`/events/${eventId}/invite`, null, { params: { email } }),
+  // Add these below your existing endpoints:
+  getInvites: () => api.get('/events/invites'),
+  respondToInvite: (inviteId, accept) => api.post(`/events/invites/${inviteId}/respond`, null, { params: { accept } }),
+  getEventExpenses: (eventId) => api.get(`/events/${eventId}/expenses`)
 };

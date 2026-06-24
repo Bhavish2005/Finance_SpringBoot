@@ -17,6 +17,8 @@ import ImportTransactionsPage from './pages/ImportTransactionsPage'
 import AccountAnalyticsPage from './pages/AccountAnanlyticsPage';
 import EventSettlementPage from './pages/EventSettlementPage';
 import EventsDashboardPage from './pages/EventsDashboardPage'
+import SavingsHubPage from './pages/SavingsHubPage'
+import { useWebSocket } from './hooks/useWebSocket'
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
   if (loading) return (
@@ -34,6 +36,7 @@ function PublicRoute({ children }) {
 }
 
 export default function App() {
+  useWebSocket();
   return (
     <Routes>
 
@@ -82,6 +85,7 @@ export default function App() {
 </Route>
 <Route path="/events/:eventId/settle" element={<EventSettlementPage />} />
 <Route path="/events" element={<EventsDashboardPage />} />
+<Route path="/sentinel" element={<SavingsHubPage />} />
 <Route path="accounts/:id" element={<AccountAnalyticsPage />} />
 
     </Routes>

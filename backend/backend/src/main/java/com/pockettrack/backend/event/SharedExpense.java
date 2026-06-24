@@ -1,5 +1,7 @@
 package com.pockettrack.backend.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pockettrack.backend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,10 +20,12 @@ public class SharedExpense {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
+    @JsonIgnoreProperties({"hybernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paid_by_user_id", nullable = false)
     private User paidBy;

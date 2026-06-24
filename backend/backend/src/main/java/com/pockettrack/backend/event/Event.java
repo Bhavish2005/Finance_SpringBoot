@@ -1,6 +1,7 @@
 package com.pockettrack.backend.event;
 
 import com.pockettrack.backend.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -34,10 +35,12 @@ public class Event {
     @Column(nullable = false)
     private EventStatus status; // ACTIVE, SETTLING, CLOSED
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_user_id", nullable = false)
     private User createdBy;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "event_participants",
