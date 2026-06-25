@@ -30,10 +30,13 @@ Every month the system automatically emails users a full financial summary. Budg
 | Multi-Account Management | Savings, checking, credit cards, cash — with real-time balance updates |
 | Transaction Engine | Full create/edit/delete with automatic balance correction on every change |
 | AI Receipt Scanner | Snap a receipt → Gemini AI fills in the transaction details |
+| Bucket4j Rate Limiting | Distributed API rate limiting via Redis to prevent AI endpoint spam |
+| Redis Caching | High-performance dashboard data retrieval powered by Spring Data Redis |
 | Budget Tracking | Monthly per-category budgets with visual progress bars |
 | Savings Goals | Set targets, contribute amounts, auto-completes when reached |
 | Financial Health Score | 0–100 score with grade (A–F) based on savings, budgets, goals, net worth |
 | Recurring Detection | Auto-flags transactions that repeat month over month |
+| Shared Expenses & Events | Create events, invite users, split bills, and track settlements |
 | Monthly Email Reports | Automated HTML email summary every 1st of the month |
 | CSV Import | Bulk import transactions with row-level error reporting |
 | Dark Mode | Full dark/light theme across every page |
@@ -42,9 +45,11 @@ Every month the system automatically emails users a full financial summary. Budg
 
 ## Tech Stack
 
-**Backend** — Java 21, Spring Boot 3.5.11, Spring Security, Spring Data JPA, PostgreSQL, JWT, JavaMailSender, OkHttp3
+**Backend** — Java 21, Spring Boot 3.5.11, Spring Security, Spring Data JPA, PostgreSQL, Redis, Bucket4j, JWT, JavaMailSender
 
 **Frontend** — React 18, Vite, Tailwind CSS v4, Recharts, React Icons
+
+**Infrastructure** — Docker, Docker Compose
 
 **AI** — Google Gemini 2.0 Flash API
 
@@ -71,51 +76,30 @@ git clone https://github.com/Bhavish2005/FinanceVUE.git
 cd FinanceVUE
 ```
 
-### 2. Create the PostgreSQL database
+### 2. Configure Environment Variables
+Create a `.env` file in the root directory and add your secrets:
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_db_password
+POSTGRES_DB=financevue
+JWT_SECRET=your_super_secret_jwt_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
+MAIL_PASSWORD=your_gmail_app_password
+```
+
+### 3. Run with Docker Compose (Recommended)
+The easiest way to run the entire stack (Postgres, Redis, Spring Boot, React) is using Docker:
 ```bash
-psql -U postgres -c "CREATE DATABASE financevue;"
+docker-compose up -d --build
 ```
+- Frontend will be available at `http://localhost:3000`
+- Backend API will be available at `http://localhost:8080`
+- PostgreSQL is mapped to `5432`
+- Redis is mapped to `6379`
 
-### 3. Configure the backend
+> The application will automatically create all database tables and connect the caching layers on first startup.
 
-Open `backend/src/main/resources/application.yml` and fill in your values:
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/financevue
-    username: YOUR_POSTGRES_USERNAME
-    password: YOUR_POSTGRES_PASSWORD
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: YOUR_GMAIL_ADDRESS
-    password: YOUR_GMAIL_APP_PASSWORD
 
-app:
-  jwt:
-    secret: any-random-string-minimum-32-characters-long
-  gemini:
-    api-key: YOUR_GEMINI_API_KEY
-```
-
-### 4. Run the backend
-```bash
-cd backend
-./mvnw spring-boot:run
-```
-
-Backend starts at `http://localhost:8080`. All database tables are created automatically on first run.
-
-### 5. Run the frontend
-
-Open a new terminal:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend starts at `http://localhost:5173`. Open that URL in your browser and you're ready to go.
 
 ---
 

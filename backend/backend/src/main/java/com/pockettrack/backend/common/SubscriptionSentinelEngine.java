@@ -31,7 +31,7 @@ public class SubscriptionSentinelEngine {
     private final SubscriptionAnomalyRepository anomalyRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @Scheduled(cron ="0 3 * * 0 ") 
+    @Scheduled(cron ="0 0 3 * * 0 ") 
     @Transactional
     public void scanForAnomalies() {
         // 1. LOUD LOGGING: Prove the engine is awake!

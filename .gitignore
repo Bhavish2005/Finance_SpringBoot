@@ -44,8 +44,8 @@ Thumbs.db
 /.m2/
 
 # Application configuration files (can be sensitive, handle carefully)
-application.properties
-application.yml
+application*.properties
+application*.yml
 
 # React (Frontend)
 
@@ -70,11 +70,9 @@ yarn-error.log
 .DS_Store
 Thumbs.db
 
-# VS Code
-.vscode/
+# Environment variables
+.env
 
-# Editor directories
-.idea/
-
-# JetBrains
-.idea/
+# JVM Crash Logs
+hs_err_pid*.log
+replay_pid*.log

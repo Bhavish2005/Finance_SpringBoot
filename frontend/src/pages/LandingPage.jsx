@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { MdArrowForward } from 'react-icons/md'
 import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa'
-import logo from '../assets/logo.svg'
+import logo from '../assets/Logo.svg'
 import styles from '../LandingPage.module.css'
 
 
@@ -547,7 +547,7 @@ export default function LandingPage() {
           <div className={styles.footerGrid}>
             <div>
               <div className={styles.footerBrand}>
-                <div className={styles.footerLogoBox}><img src="/src/assets/Logo.svg" alt="FinanceVU Logo" /></div>
+                <div className={styles.footerLogoBox}><img src={logo} alt="FinanceVU Logo" /></div>
            
               </div>
               <p className={styles.footerTagline}>AI-powered personal finance for modern India.</p>
