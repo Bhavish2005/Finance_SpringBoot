@@ -20,12 +20,24 @@ public class Bucket4jConfig {
     @Value("${spring.data.redis.port:6379}")
     private int redisPort;
 
+    @Value("${spring.data.redis.password:}")
+    private String redisPassword;
+
+    @Value("${spring.data.redis.ssl.enabled:false}")
+    private boolean redisSsl;
+
     @Bean
     public RedisClient redisClient() {
-        return RedisClient.create(RedisURI.builder()
+        RedisURI.Builder builder = RedisURI.builder()
                 .withHost(redisHost)
                 .withPort(redisPort)
-                .build());
+                .withSsl(redisSsl);
+
+        if (redisPassword != null && !redisPassword.isEmpty()) {
+            builder.withPassword(redisPassword.toCharArray());
+        }
+
+        return RedisClient.create(builder.build());
     }
 
     @Bean
