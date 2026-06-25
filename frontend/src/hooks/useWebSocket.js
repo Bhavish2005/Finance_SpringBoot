@@ -12,10 +12,9 @@ export function useWebSocket() {
     // Only connect if the user is actively logged in
     if (!user || !user.id) return;
 
-    // Use the exact /ws endpoint we configured in Spring Boot
-    // const socket = new SockJS('http://localhost:8080/ws'); for local development
-    const socket =new SockJS('/ws'); // for production deployment
-    
+    // Use the environment variable to find the backend URL, fallback to relative path
+    const API_URL = import.meta.env.VITE_API_URL || '';
+    const socket = new SockJS(`${API_URL}/ws`); 
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
