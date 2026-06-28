@@ -192,8 +192,8 @@ function useScrollReveal() {
     )
     document.querySelectorAll(`.${styles.sr}, .${styles.srLeft}, .${styles.srRight}`).forEach(el => obs.observe(el))
     return () => obs.disconnect()
+  }, [])
 }
-
 
 function SentinelIllustration() {
   return (
