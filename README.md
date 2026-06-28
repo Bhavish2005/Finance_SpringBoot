@@ -109,12 +109,15 @@ FinanceVUE/
 ├── backend/                  # Spring Boot application
 │   └── src/main/java/
 │       ├── account/          # Account management + balance logic
-│       ├── transaction/      # Transaction CRUD + CSV import + AI scanner
+│       ├── transaction/      # Transaction CRUD + CSV import
 │       ├── budget/           # Budgets + email alerts
 │       ├── goal/             # Savings goals + contributions
-│       ├── common/           # Dashboard, Health Score, Email reports
-│       ├── ai/               # Gemini receipt parsing service
-│       └── security/         # JWT filter + configuration
+│       ├── event/            # Group events + Debt Simplification Algorithm (Priority Queues)
+│       ├── dashboard/        # Predictive Engine + Subscription Sentinel anomalies
+│       ├── common/           # WebSockets, Notifications, Health Score
+│       ├── ai/               # Gemini AI integration for receipts and chat
+│       ├── auth/             # JWT filters, Spring Security, Bucket4j Rate Limiting
+│       └── config/           # Redis and WebSocket configurations
 │
 └── frontend/                 # React + Vite application
     └── src/
@@ -129,8 +132,9 @@ FinanceVUE/
 ## Pages
 ```
 /                →  Landing page
-/dashboard       →  Monthly summary, charts, recent transactions
+/dashboard       →  Monthly summary, charts, Predictive Engine
 /accounts        →  Manage bank accounts and balances
+/accounts/:id    →  Detailed analytics and history for a specific account
 /transactions    →  Add, filter, search, and manage transactions
 /budget          →  Set and track monthly spending budgets
 /goals           →  Create savings goals and contribute to them
@@ -138,6 +142,9 @@ FinanceVUE/
 /health-score    →  Financial Health Score with grade and tips
 /scan-receipt    →  AI receipt scanner
 /import          →  Bulk CSV import
+/events          →  Group Events and Trips dashboard
+/events/:id/settle → Debt Simplification ledger for a specific trip
+/sentinel        →  Subscription Sentinel anomaly tracking hub
 ```
 
 ---

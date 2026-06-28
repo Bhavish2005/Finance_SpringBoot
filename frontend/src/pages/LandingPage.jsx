@@ -192,28 +192,80 @@ function useScrollReveal() {
     )
     document.querySelectorAll(`.${styles.sr}, .${styles.srLeft}, .${styles.srRight}`).forEach(el => obs.observe(el))
     return () => obs.disconnect()
-  }, [])
 }
 
 
+function SentinelIllustration() {
+  return (
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#FEF2F2" />
+      <rect x="28" y="28" width="130" height="7" rx="3.5" fill="#FECACA" />
+      <rect x="28" y="40" width="90" height="14" rx="5" fill="#991B1B" />
+      <path d="M 40 160 Q 100 160 140 140 T 220 140 T 280 60" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <circle cx="280" cy="60" r="8" fill="#EF4444" />
+      <rect x="190" y="30" width="90" height="40" rx="8" fill="white" style={{ filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }} />
+      <text x="200" y="48" fontSize="10" fill="#EF4444" fontFamily="Plus Jakarta Sans,sans-serif" fontWeight="bold">Netflix +20%!</text>
+      <text x="200" y="62" fontSize="9" fill="#6B7280" fontFamily="DM Sans,sans-serif">Price hike detected</text>
+    </svg>
+  )
+}
+
+function PredictiveIllustration() {
+  return (
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#FAF5FF" />
+      <rect x="28" y="28" width="130" height="7" rx="3.5" fill="#E9D5FF" />
+      <rect x="28" y="40" width="90" height="14" rx="5" fill="#4C1D95" />
+      <circle cx="160" cy="110" r="45" fill="none" stroke="#D8B4FE" strokeWidth="8" />
+      <circle cx="160" cy="110" r="45" fill="none" stroke="#A855F7" strokeWidth="8" strokeDasharray="282" strokeDashoffset="70" strokeLinecap="round" />
+      <text x="160" y="105" textAnchor="middle" fontSize="20" fontWeight="800" fill="#1E293B" fontFamily="Plus Jakarta Sans,sans-serif">₹4,200</text>
+      <text x="160" y="122" textAnchor="middle" fontSize="10" fill="#64748B" fontFamily="DM Sans,sans-serif">Safe to Spend</text>
+      <rect x="40" y="150" width="100" height="30" rx="6" fill="white" />
+      <rect x="40" y="150" width="60" height="30" rx="6" fill="#A855F7" />
+      <text x="180" y="168" fontSize="10" fill="#64748B" fontFamily="DM Sans,sans-serif">Reserving upcoming bills...</text>
+    </svg>
+  )
+}
+
+function TripIllustration() {
+  return (
+    <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', maxHeight: 200 }}>
+      <rect x="12" y="12" width="296" height="196" rx="18" fill="#F0F9FF" />
+      <rect x="28" y="28" width="130" height="7" rx="3.5" fill="#BAE6FD" />
+      <rect x="28" y="40" width="90" height="14" rx="5" fill="#0369A1" />
+      <circle cx="80" cy="120" r="24" fill="#0EA5E9" />
+      <circle cx="240" cy="120" r="24" fill="#38BDF8" />
+      <circle cx="160" cy="160" r="24" fill="#7DD3FC" />
+      <path d="M 104 120 L 216 120" stroke="#0284C7" strokeWidth="2" strokeDasharray="4 4" />
+      <path d="M 94 140 L 142 155" stroke="#0284C7" strokeWidth="2" strokeDasharray="4 4" />
+      <path d="M 226 140 L 178 155" stroke="#0284C7" strokeWidth="2" strokeDasharray="4 4" />
+      <rect x="120" y="95" width="80" height="24" rx="12" fill="white" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} />
+      <text x="160" y="111" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0EA5E9" fontFamily="Plus Jakarta Sans,sans-serif">Settled: ₹500</text>
+    </svg>
+  )
+}
 const features = [
   { title: 'AI Receipt Scanner',      desc: 'Snap a photo — Our Service extracts merchant, amount, date and category instantly. No manual entry ever again.',            Illus: ReceiptScanIllustration,  bg: '#EFF6FF', accent: '#3B82F6', tag: 'AI-Powered' },
   { title: 'Smart Dashboard',         desc: 'Beautiful charts show exactly where your money goes. Track 6 months of income vs expenses at a glance.',                  Illus: DashboardIllustration,    bg: '#F0F9FF', accent: '#00C4B3', tag: 'Analytics'  },
-  { title: 'Budget Management',       desc: 'Set monthly limits per category. Get email alerts at 80% and 100% before overspending happens.',                           Illus: BudgetIllustration,       bg: '#EFF6FF', accent: '#F59E0B', tag: 'Planning'   },
+  { title: 'Subscription Sentinel',   desc: 'Background AI monitors your recurring bills. It instantly alerts you if a service secretly hikes its price.',               Illus: SentinelIllustration,     bg: '#FEF2F2', accent: '#EF4444', tag: 'Protection' },
+  { title: 'Predictive Engine',       desc: 'Stop guessing. We forecast upcoming bills and average needs to show exactly what is "Safe-to-Spend" today.',              Illus: PredictiveIllustration,   bg: '#FAF5FF', accent: '#A855F7', tag: 'Forecasting' },
+  { title: 'Group Debt Simplification',desc: 'Going on a trip? Our Splitwise-style algorithm magically reduces group debts to the minimum number of cash transfers.',    Illus: TripIllustration,         bg: '#F0F9FF', accent: '#0EA5E9', tag: 'Social' },
+  { title: 'Budget Management',       desc: 'Set monthly limits per category. Get email alerts at 80% and 100% before overspending happens.',                           Illus: BudgetIllustration,       bg: '#FFFBEB', accent: '#F59E0B', tag: 'Planning'   },
   { title: 'Savings Goals',           desc: "Define what you're saving for. Track progress visually and celebrate each milestone you hit.",                             Illus: GoalsIllustration,        bg: '#F0FDF4', accent: '#10B981', tag: 'Goals'      },
   { title: 'Financial Health Score',  desc: 'Get a 0–100 score based on savings rate, budget discipline, goal progress and net worth trends.',                         Illus: HealthScoreIllustration,  bg: '#FFF7ED', accent: '#F97316', tag: 'Insights'   },
   { title: 'Multi-Account Tracking',  desc: 'Manage savings, checking, credit cards and investments in one place with real-time balances.',                            Illus: MultiAccountIllustration, bg: '#EEF2FF', accent: '#6366F1', tag: 'Unified'    },
 ]
 
+
 const comparisons = [
-  { feature: 'AI Receipt Scanning',    us: true,  others: false },
-  { feature: 'Financial Health Score', us: true,  others: false },
-  { feature: 'Budget Email Alerts',    us: true,  others: false },
-  { feature: 'Monthly Email Reports',  us: true,  others: false },
-  { feature: 'Multi-Account Tracking', us: true,  others: true  },
-  { feature: 'Goal Tracking',          us: true,  others: true  },
-  { feature: 'CSV Import & Export',    us: true,  others: true  },
-  { feature: 'Free to Use',            us: true,  others: false },
+  { feature: 'AI Receipt Scanning',           us: true,  others: false },
+  { feature: 'Subscription Price Hike Alerts', us: true,  others: false },
+  { feature: 'Algorithmic Debt Simplification',us: true,  others: false },
+  { feature: 'Safe-to-Spend Forecasting',     us: true,  others: false },
+  { feature: 'Financial Health Score',        us: true,  others: false },
+  { feature: 'Budget Email Alerts',           us: true,  others: false },
+  { feature: 'Multi-Account Tracking',        us: true,  others: true  },
+  { feature: 'Free to Use',                   us: true,  others: false },
 ]
 
 const testimonials = [
