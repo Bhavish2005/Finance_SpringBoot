@@ -54,6 +54,7 @@ export default function App() {
 
       <Route path="/accounts" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<AccountsPage />} />
+        <Route path=":id" element={<AccountAnalyticsPage />} />
       </Route>
 
       <Route path="/transactions" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
@@ -72,21 +73,29 @@ export default function App() {
         <Route index element={<ReceiptScannerPage />} />
       </Route>
 
+      <Route path="/recurring" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<RecurringPage />} />
+      </Route>
+
+      <Route path="/health-score" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<HealthScorePage />} />
+      </Route>
+
+      <Route path="/import" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<ImportTransactionsPage />} />
+      </Route>
+
+      <Route path="/events" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<EventsDashboardPage />} />
+        <Route path=":eventId/settle" element={<EventSettlementPage />} />
+      </Route>
+
+      <Route path="/sentinel" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route index element={<SavingsHubPage />} />
+      </Route>
+
       {/* Catch all */}
       <Route path="*" element={<Navigate to="/" replace />} />
-      <Route path="/recurring" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-  <Route index element={<RecurringPage />} />
-</Route>
-<Route path="/health-score" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-  <Route index element={<HealthScorePage />} />
-</Route>
-<Route path="/import" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-  <Route index element={<ImportTransactionsPage />} />
-</Route>
-<Route path="/events/:eventId/settle" element={<EventSettlementPage />} />
-<Route path="/events" element={<EventsDashboardPage />} />
-<Route path="/sentinel" element={<SavingsHubPage />} />
-<Route path="accounts/:id" element={<AccountAnalyticsPage />} />
 
     </Routes>
   )
