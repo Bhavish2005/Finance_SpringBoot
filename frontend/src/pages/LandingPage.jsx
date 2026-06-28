@@ -258,14 +258,13 @@ const features = [
 
 
 const comparisons = [
-  { feature: 'AI Receipt Scanning',           us: true,  others: false },
-  { feature: 'Subscription Price Hike Alerts', us: true,  others: false },
-  { feature: 'Algorithmic Debt Simplification',us: true,  others: false },
-  { feature: 'Safe-to-Spend Forecasting',     us: true,  others: false },
-  { feature: 'Financial Health Score',        us: true,  others: false },
-  { feature: 'Budget Email Alerts',           us: true,  others: false },
-  { feature: 'Multi-Account Tracking',        us: true,  others: true  },
-  { feature: 'Free to Use',                   us: true,  others: false },
+  { feature: 'AI Receipt Scanning',                  us: true,  others: false },
+  { feature: 'Predictive "Safe-to-Spend" & Goals',   us: true,  others: false },
+  { feature: 'Algorithmic Group Debt Simplification',us: true,  others: false },
+  { feature: 'Health Score & Monthly Reports',       us: true,  others: false },
+  { feature: 'Subscription & Budget Email Alerts',   us: true,  others: false },
+  { feature: 'Multi-Account & CSV Import/Export',    us: true,  others: true  },
+  { feature: '100% Free to Use',                     us: true,  others: false },
 ]
 
 const testimonials = [
